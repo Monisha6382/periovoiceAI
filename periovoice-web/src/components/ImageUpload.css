@@ -1,0 +1,21 @@
+/* ImageUpload.css */
+.image-upload-wrapper { position: relative; flex-shrink: 0; }
+.image-upload-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%; border: none;
+  background: #f0f4f8; cursor: pointer;
+  font-size: 18px; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.image-upload-btn:hover:not(:disabled) { background: #e0f2f1; transform: scale(1.05); }
+.image-upload-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.image-preview { position: relative; width: 44px; height: 44px; }
+.image-preview img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 2px solid #00897B; }
+.remove-img-btn {
+  position: absolute; top: -6px; right: -6px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #F44336; color: white; border: none;
+  font-size: 10px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+}
+.img-error { font-size: 11px; color: #F44336; margin-top: 4px; max-width: 120px; }

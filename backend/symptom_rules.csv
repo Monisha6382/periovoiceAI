@@ -1,0 +1,14 @@
+symptom,keywords,score,condition
+bleeding_gums,"bleeding,bleed,blood",3,Gingivitis
+swelling,"swelling,swollen,inflammation",3,Gum Infection
+pus,"pus,discharge",5,Gum Infection
+bad_taste,"bad taste,foul taste,bitter taste",3,Gum Infection
+loose_teeth,"loose tooth,loose teeth,wobbly tooth",5,Periodontitis
+severe_pain,"pain 8,pain 9,pain 10,severe pain",5,Dental Emergency
+moderate_pain,"pain 5,pain 6,pain 7",3,Dental Pain
+mild_pain,"pain 1,pain 2,pain 3,pain 4",1,Mild Dental Issue
+tooth_gap,"gap,spacing,space between teeth",1,Tooth Spacing
+sensitivity,"sensitive,sensitivity,cold water,hot water",2,Tooth Sensitivity
+bad_breath,"bad breath,smell,halitosis",2,Gum Disease
+difficulty_chewing,"difficulty chewing,cannot chew,chewing pain",4,Dental Problem
+long_duration,"month,months,year,years,long time",2,Chronic Dental Issue

@@ -1,0 +1,32 @@
+/* VoiceButton.css */
+.voice-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #f0f4f8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.voice-btn:hover:not(:disabled) { background: #e0f2f1; transform: scale(1.05); }
+.voice-btn.listening { background: #FFEBEE; }
+.voice-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.voice-icon { font-size: 18px; position: relative; z-index: 1; }
+.pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid #F44336;
+  animation: pulse-out 1.5s ease-out infinite;
+}
+.ring-1 { width: 100%; height: 100%; animation-delay: 0s; }
+.ring-2 { width: 100%; height: 100%; animation-delay: 0.5s; }
+@keyframes pulse-out {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.voice-unsupported { font-size: 22px; opacity: 0.3; cursor: not-allowed; padding: 8px; }

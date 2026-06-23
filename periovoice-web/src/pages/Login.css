@@ -1,0 +1,73 @@
+/* Login.css — PerioVoice AI */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.login-page {
+  min-height: 100vh; background: #F0F7F6;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; position: relative; overflow: hidden;
+}
+.login-bg { position: absolute; inset: 0; pointer-events: none; }
+.bg-circle { position: absolute; border-radius: 50%; opacity: 0.12; }
+.bg-circle-1 { width: 400px; height: 400px; background: #00897B; top: -100px; right: -100px; }
+.bg-circle-2 { width: 300px; height: 300px; background: #26C6DA; bottom: -80px; left: -80px; }
+.bg-circle-3 { width: 200px; height: 200px; background: #4CAF50; top: 40%; left: 10%; }
+
+.login-container { position: relative; z-index: 2; width: 100%; max-width: 420px; padding: 24px; }
+.login-header { text-align: center; margin-bottom: 28px; }
+.login-logo { font-size: 3.5rem; margin-bottom: 12px; }
+.login-title { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: #1a2e2b; }
+.login-subtitle { color: #5a7a76; font-size: 0.95rem; margin-top: 6px; }
+
+.login-card { background: white; border-radius: 20px; padding: 28px; box-shadow: 0 8px 40px rgba(0,137,123,0.12); }
+.login-tabs { display: flex; gap: 0; background: #F0F7F6; border-radius: 10px; padding: 4px; margin-bottom: 24px; }
+.tab-btn { flex: 1; background: none; border: none; padding: 10px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; color: #888; transition: all 0.2s; }
+.tab-btn.active { background: white; color: #00897B; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+.login-error { background: #FFEBEE; color: #C62828; padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 16px; }
+.login-form { display: flex; flex-direction: column; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 0.85rem; font-weight: 600; color: #374151; }
+.form-group input {
+  border: 1.5px solid #D0E8E5; border-radius: 10px;
+  padding: 12px 14px; font-size: 0.95rem; font-family: 'DM Sans', sans-serif;
+  outline: none; transition: border 0.2s; background: #FAFEFE; color: #1a2e2b;
+}
+.form-group input:focus { border-color: #00897B; }
+.btn-primary {
+  background: #00897B; color: white; border: none;
+  padding: 14px; border-radius: 12px; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; font-family: 'Syne', sans-serif; transition: all 0.2s;
+}
+.btn-primary:hover:not(:disabled) { background: #00695C; transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #E5E7EB; }
+.divider span { color: #9CA3AF; font-size: 0.82rem; }
+
+.btn-google {
+  width: 100%; padding: 12px; border: 1.5px solid #E5E7EB;
+  border-radius: 12px; background: white; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-size: 0.92rem; font-weight: 500; font-family: 'DM Sans', sans-serif;
+  color: #374151; transition: all 0.2s;
+}
+.btn-google:hover { background: #F9FAFB; border-color: #D1D5DB; }
+
+.login-disclaimer { text-align: center; font-size: 0.78rem; color: #9CA3AF; margin-top: 20px; line-height: 1.6; }
+.forgot-password-btn {
+  background: none;
+  border: none;
+  color: #0d9488;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-bottom: 15px;
+  text-align: right;
+  width: 100%;
+}
+
+.forgot-password-btn:hover {
+  text-decoration: underline;
+}

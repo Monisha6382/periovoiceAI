@@ -1,0 +1,9 @@
+/* Global Reset */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; padding: 0; font-family: 'DM Sans', sans-serif; background: #F5F9F8; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; }
+input, textarea { font-family: inherit; }
+a { text-decoration: none; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #B2DFDB; border-radius: 4px; }

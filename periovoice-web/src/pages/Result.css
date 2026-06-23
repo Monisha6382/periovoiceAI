@@ -1,0 +1,130 @@
+/* Result.css — PerioVoice AI Result Page */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.result-page { font-family: 'DM Sans', sans-serif; background: #F5F9F8; min-height: 100vh; }
+
+/* HERO */
+.result-hero {
+  position: relative; overflow: hidden;
+  padding: 48px 24px 80px;
+  text-align: center; color: white;
+  animation: heroIn 0.6s ease;
+}
+@keyframes heroIn { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+.result-hero.low       { background: linear-gradient(135deg, #2E7D32, #66BB6A); }
+.result-hero.moderate  { background: linear-gradient(135deg, #E65100, #FFB300); }
+.result-hero.high      { background: linear-gradient(135deg, #B71C1C, #EF5350); }
+.result-hero.emergency { background: linear-gradient(135deg, #4A148C, #AB47BC); }
+
+.result-hero-inner { position: relative; z-index: 2; }
+.result-hero-icon  { font-size: 3rem; margin-bottom: 12px; }
+.result-hero-title { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; }
+.result-hero-sub   { font-size: 0.95rem; opacity: 0.85; margin-top: 8px; }
+
+.hero-wave {
+  position: absolute; bottom: -2px; left: 0; right: 0; height: 48px;
+  background: #F5F9F8;
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+/* BODY */
+.result-body {
+  max-width: 600px;
+  margin: -24px auto 0;
+  padding: 0 20px 60px;
+  position: relative; z-index: 3;
+}
+
+/* SECTIONS */
+.result-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  animation: sectionIn 0.4s ease both;
+}
+.result-section:nth-child(2) { animation-delay: 0.1s; }
+.result-section:nth-child(3) { animation-delay: 0.2s; }
+.result-section:nth-child(4) { animation-delay: 0.3s; }
+@keyframes sectionIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+.result-gauge-section { text-align: center; }
+.section-title {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 1rem; color: #1a2e2b;
+  margin-bottom: 16px;
+}
+
+/* SYMPTOMS */
+.symptoms-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.symptom-tag {
+  background: #E0F2F1; color: #00695C;
+  padding: 6px 14px; border-radius: 100px;
+  font-size: 0.82rem; font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* INFO BOX */
+.info-box {
+  background: #f0fafa; border-left: 3px solid #00897B;
+  padding: 14px 16px; border-radius: 0 8px 8px 0;
+  font-size: 0.9rem; line-height: 1.7; color: #1a2e2b;
+}
+
+/* RECOMMENDATION BOX */
+.recommendation-box {
+  padding: 16px; border-radius: 12px;
+  font-size: 0.92rem; line-height: 1.7; white-space: pre-line;
+  font-weight: 500;
+}
+.recommendation-box.low       { background: #E8F5E9; color: #2E7D32; }
+.recommendation-box.moderate  { background: #FFF8E1; color: #E65100; }
+.recommendation-box.high      { background: #FFEBEE; color: #B71C1C; }
+.recommendation-box.emergency { background: #F3E5F5; color: #4A148C; }
+
+/* TIPS */
+.tips-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.tips-list li {
+  padding-left: 24px; position: relative;
+  font-size: 0.9rem; line-height: 1.6; color: #374151;
+}
+.tips-list li::before {
+  content: "✓"; position: absolute; left: 0;
+  color: #00897B; font-weight: 700;
+}
+
+/* DENTIST BOX */
+.dentist-box {
+  padding: 14px 18px; border-radius: 12px;
+  font-weight: 600; font-size: 0.95rem; text-align: center;
+}
+.dentist-box.yes { background: #E8F5E9; color: #2E7D32; }
+.dentist-box.no  { background: #E3F2FD; color: #1565C0; }
+
+/* DISCLAIMER */
+.disclaimer {
+  background: #FFF8E1; color: #856404;
+  border: 1px solid #FFE082; border-radius: 10px;
+  padding: 12px 16px; font-size: 0.82rem; line-height: 1.6;
+  margin-bottom: 20px; text-align: center;
+}
+
+/* ACTIONS */
+.result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.result-actions button {
+  padding: 13px; border-radius: 12px; border: none;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 600; transition: all 0.2s;
+}
+.btn-save    { background: #00897B; color: white; grid-column: 1; }
+.btn-pdf     { background: #F3E5F5; color: #6A1B9A; grid-column: 2; }
+.btn-new     { background: #E0F2F1; color: #00695C; grid-column: 1; }
+.btn-history { background: #E8EAF6; color: #3949AB; grid-column: 2; }
+.result-actions button:hover:not(:disabled) { filter: brightness(0.93); transform: translateY(-1px); }
+.result-actions button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.result-error { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 16px; }
+.result-error button { background: #00897B; color: white; border: none; padding: 12px 28px; border-radius: 12px; cursor: pointer; }

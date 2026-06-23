@@ -1,0 +1,11 @@
+.gauge-wrapper { display: flex; justify-content: center; padding: 8px 0; }
+.gauge-container { width: 220px; }
+.gauge-svg { width: 100%; }
+.gauge-labels {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem; color: #888;
+  font-weight: 500;
+}
+.gauge-labels span:nth-child(2) { font-weight: 700; font-size: 0.85rem; }
