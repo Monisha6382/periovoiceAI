@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "579559413174",
+    "project_id": "periovoiceai",
+    "storage_bucket": "periovoiceai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579559413174:android:d487746c31527459259d17",
+        "android_client_info": {
+          "package_name": "com.periovoice.ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579559413174-1m3fulkrnhn59s7aqifsgdtnm05id961.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.periovoice.ai",
+            "certificate_hash": "efbd3ed2fc7ea1f86a190f74105eeea3ffd6c30c"
+          }
+        },
+        {
+          "client_id": "579559413174-jm1h1b6ml7d7jf6f7gkuvfj8hrksdvom.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv4shQENO9BaUMHW3_6LwHVEVUxEXkYRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579559413174-jm1h1b6ml7d7jf6f7gkuvfj8hrksdvom.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

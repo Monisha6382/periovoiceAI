@@ -1,0 +1,44 @@
+{
+  "user_id": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2",
+  "session_id": "839ff0c1-ccc8-496e-af72-a9ebe2caddb3",
+  "conversation_transcript": [
+    {
+      "sender": "bot",
+      "text": "🦷 PerioVoice AI: Hi! Tell me what’s bothering you about your teeth or gums today. You can describe it in your own words."
+    },
+    {
+      "sender": "user",
+      "text": "I have severe throbbing tooth pain"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for sharing that — pain is noted. Which specific tooth or area is hurting (e.g., upper back molar, lower front tooth)?"
+    },
+    {
+      "sender": "user",
+      "text": "no"
+    },
+    {
+      "sender": "bot",
+      "text": "Thank you for that detail. Pain around the no is something we should look into carefully. When did this tooth pain start?"
+    },
+    {
+      "sender": "user",
+      "text": "no"
+    },
+    {
+      "sender": "bot",
+      "text": "Noted, so this has been going on for no. Does anything specific trigger the pain, like cold drinks, hot food, sweets, or biting?"
+    }
+  ],
+  "urgency_level": "HIGH",
+  "risk_score": 8,
+  "symptoms_found": [
+    "Severe Acute Throbbing Pain"
+  ],
+  "recommendation": "🔴 HIGH URGENCY: Schedule a clinical periodontal appointment within 48 hours.",
+  "detected_from_image": null,
+  "image_url": null,
+  "assessment_id": "839ff0c1-ccc8-496e-af72-a9ebe2caddb3",
+  "user_name": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2"
+}

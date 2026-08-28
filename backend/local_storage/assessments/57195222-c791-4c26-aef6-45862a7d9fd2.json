@@ -1,0 +1,42 @@
+{
+  "assessment_id": "57195222-c791-4c26-aef6-45862a7d9fd2",
+  "user_id": "y6FW6toNMkRGKFM1ldh38Gh2NZe2",
+  "user_name": "y6FW6toNMkRGKFM1ldh38Gh2NZe2",
+  "session_id": "57195222-c791-4c26-aef6-45862a7d9fd2",
+  "conversation_transcript": [
+    {
+      "sender": "bot",
+      "text": "Hello! 👋 I am PerioVoice AI™, your dental and gum health triage assistant. Describe your tooth or gum symptoms to begin. What primary symptoms or discomfort are you experiencing with your teeth or gums?"
+    },
+    {
+      "sender": "user",
+      "text": "I have severe throbbing tooth pain"
+    },
+    {
+      "sender": "bot",
+      "text": "I can sense that this is causing you a lot of discomfort. That sounds really painful.\n\nDoes it happen every time, or only now and then?"
+    },
+    {
+      "sender": "user",
+      "text": "every time"
+    },
+    {
+      "sender": "bot",
+      "text": "It sounds like this pain is quite consistent. Can you also tell me how long this pain has been going on for? Is it a few hours, a day, or longer?"
+    }
+  ],
+  "urgency_level": "EMERGENCY",
+  "risk_score": 10,
+  "symptoms_found": [
+    "Severe Acute Throbbing Pain",
+    "Reported Dental Discomfort"
+  ],
+  "recommendation": "🚨 EMERGENCY: Seek urgent clinical dental or emergency room evaluation within 24 hours.",
+  "home_care_tips": [
+    "Avoid chewing on affected area and refrain from hot, acidic, or hard foods.",
+    "Brush twice daily using soft bristles angled at 45 degrees to the gumline.",
+    "Floss gently between all teeth once daily.",
+    "Rinse with warm salt water or an alcohol-free antimicrobial rinse."
+  ],
+  "detected_from_image": null
+}

@@ -1,0 +1,62 @@
+{
+  "user_id": "guest_patient",
+  "session_id": "4e4cf805-fc09-4581-9e8e-1405cceebef0",
+  "conversation_transcript": [
+    {
+      "sender": "bot",
+      "text": "🦷 PerioVoice AI: Hi! Tell me what’s bothering you about your teeth or gums today. You can describe it in your own words."
+    },
+    {
+      "sender": "user",
+      "text": "I have severe throbbing tooth pain"
+    },
+    {
+      "sender": "bot",
+      "text": "I'm so sorry to hear that you're experiencing severe tooth pain. It sounds like it's really uncomfortable for you. Can you tell me where specifically in your mouth the discomfort is located (e.g., upper right gum, back molars, front teeth)?"
+    },
+    {
+      "sender": "user",
+      "text": "upper right gum"
+    },
+    {
+      "sender": "bot",
+      "text": "The upper right gum area can be a bit tricky to diagnose. Does it happen every time, or only now and then?"
+    },
+    {
+      "sender": "user",
+      "text": "📷 Uploaded dental photo for assessment"
+    },
+    {
+      "sender": "bot",
+      "text": "📷 **Dental Photo Scanned:**\n🟠 Moderate gum redness visible near dental margin.\n📊 Irregular surface texture detected (possible plaque buildup or swelling).\n\nNext question: How long have you been experiencing discomfort or changes in this area?"
+    },
+    {
+      "sender": "user",
+      "text": "6 days"
+    },
+    {
+      "sender": "bot",
+      "text": "You've been dealing with this discomfort for 6 days now. Does anything specific set it off — like brushing, hot/cold food, or chewing?"
+    },
+    {
+      "sender": "user",
+      "text": "while brushing"
+    },
+    {
+      "sender": "bot",
+      "text": "It can be quite painful when even simple actions like brushing trigger discomfort. Have you noticed any bleeding when you brush your teeth in that area, or is it just the pain that's a problem?"
+    }
+  ],
+  "urgency_level": "EMERGENCY",
+  "risk_score": 10,
+  "symptoms_found": [
+    "Persistent Halitosis / Foul Taste",
+    "Severe Acute Throbbing Pain",
+    "Reported Dental Discomfort"
+  ],
+  "recommendation": "🚨 EMERGENCY: Seek urgent clinical dental or emergency room evaluation within 24 hours.",
+  "detected_from_image": null,
+  "image_url": null,
+  "assessment_id": "4e4cf805-fc09-4581-9e8e-1405cceebef0",
+  "user_name": "guest_patient"
+}

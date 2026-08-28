@@ -1,0 +1,77 @@
+{
+  "user_id": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2",
+  "session_id": "e5d92595-3f85-4a60-91f8-56fd1e02fb26",
+  "conversation_transcript": [
+    {
+      "sender": "bot",
+      "text": "🦷 PerioVoice AI: Hi! Tell me what’s bothering you about your teeth or gums today. You can describe it in your own words."
+    },
+    {
+      "sender": "user",
+      "text": "📷 Uploaded dental photo for assessment"
+    },
+    {
+      "sender": "bot",
+      "text": "📷 **Dental Photo Scanned:**\n🟠 Moderate gum redness visible near dental margin.\n📊 Irregular surface texture detected (possible plaque buildup or swelling).\n\nNext question: How long have you been experiencing discomfort or changes in this area?"
+    },
+    {
+      "sender": "user",
+      "text": "9 days"
+    },
+    {
+      "sender": "bot",
+      "text": "Noted, so this has been going on for 9 days. Where specifically in your mouth is the discomfort located (e.g., upper right gum, back molars, front teeth)?"
+    },
+    {
+      "sender": "user",
+      "text": "upper gum"
+    },
+    {
+      "sender": "bot",
+      "text": "I understand — discomfort in the upper is noted. Does it happen every time, or only now and then?"
+    },
+    {
+      "sender": "user",
+      "text": "yes"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for that detail. Is there any pain along with it, or is it painless?"
+    },
+    {
+      "sender": "user",
+      "text": "with pain"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for sharing that — pain is noted. Does anything specific set it off — like brushing, hot/cold food, or chewing?"
+    },
+    {
+      "sender": "user",
+      "text": "every time"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for that detail. Have you noticed any visible swelling in your gums or face?"
+    },
+    {
+      "sender": "user",
+      "text": "yes"
+    },
+    {
+      "sender": "bot",
+      "text": "Understood, swelling is something to track closely. Do your gums bleed at all — either when brushing or on their own?"
+    }
+  ],
+  "urgency_level": "MODERATE",
+  "risk_score": 4,
+  "symptoms_found": [
+    "Persistent Halitosis / Foul Taste",
+    "Reported Dental Discomfort"
+  ],
+  "recommendation": "🟡 MODERATE: Schedule professional scaling and periodontal examination within 7 to 14 days.",
+  "detected_from_image": null,
+  "image_url": null,
+  "assessment_id": "e5d92595-3f85-4a60-91f8-56fd1e02fb26",
+  "user_name": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2"
+}

@@ -1,0 +1,55 @@
+{
+  "user_id": "guest_patient",
+  "session_id": "cbe8c41e-16cd-42d2-8384-4a7e7d66a14f",
+  "conversation_transcript": [
+    {
+      "sender": "bot",
+      "text": "🦷 PerioVoice AI: Hi! Tell me what’s bothering you about your teeth or gums today. You can describe it in your own words."
+    },
+    {
+      "sender": "user",
+      "text": "hiiiiiiii"
+    },
+    {
+      "sender": "bot",
+      "text": "Hello! 👋 I'm PerioVoice AI, your dental triage assistant. How can I help you today? Tell me what's bothering you with your teeth or gums."
+    },
+    {
+      "sender": "user",
+      "text": "I have severe throbbing tooth pain"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for sharing that — pain is noted. Where specifically in your mouth is the discomfort located (e.g., upper right gum, back molars, front teeth)?"
+    },
+    {
+      "sender": "user",
+      "text": "Gums bleed when I brush my teeth"
+    },
+    {
+      "sender": "bot",
+      "text": "I understand — discomfort in the Gums bleed when I brush my teeth is noted. How long has this been going on? (e.g., a few days, a week, or longer?)"
+    },
+    {
+      "sender": "user",
+      "text": "I have severe throbbing tooth pain"
+    },
+    {
+      "sender": "bot",
+      "text": "Noted, so this has been going on for I have severe throbbing tooth pain. Does it happen every time, or only now and then?"
+    }
+  ],
+  "urgency_level": "EMERGENCY",
+  "risk_score": 10,
+  "symptoms_found": [
+    "Reported Dental Discomfort",
+    "Severe Acute Throbbing Pain",
+    "Spreading Facial Cellulitis",
+    "Gingival Bleeding on Brushing / Flossing"
+  ],
+  "recommendation": "🚨 EMERGENCY: Seek urgent clinical dental or emergency room evaluation within 24 hours.",
+  "detected_from_image": null,
+  "image_url": null,
+  "assessment_id": "cbe8c41e-16cd-42d2-8384-4a7e7d66a14f",
+  "user_name": "guest_patient"
+}

@@ -1,0 +1,53 @@
+{
+  "user_id": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2",
+  "session_id": "eea62ffe-ae6a-4fb5-b0fc-8120c6601cc8",
+  "conversation_transcript": [
+    {
+      "sender": "bot",
+      "text": "🦷 PerioVoice AI: Hi! Tell me what’s bothering you about your teeth or gums today. You can describe it in your own words."
+    },
+    {
+      "sender": "user",
+      "text": "hi"
+    },
+    {
+      "sender": "bot",
+      "text": "Hello! 👋 I'm PerioVoice AI, your dental triage assistant. How can I help you today? Tell me what's bothering you with your teeth or gums."
+    },
+    {
+      "sender": "user",
+      "text": "Gums bleed when I brush my teeth"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for sharing that — bleeding gums is noted. How long has this been going on? (e.g., a few days, a week, or longer?)"
+    },
+    {
+      "sender": "user",
+      "text": "for a week"
+    },
+    {
+      "sender": "bot",
+      "text": "Noted, so this has been going on for 1 week. Does it happen every time, or only now and then?"
+    },
+    {
+      "sender": "user",
+      "text": "every time"
+    },
+    {
+      "sender": "bot",
+      "text": "Understood, happening every time. Have you noticed any visible swelling in your gums or face?"
+    }
+  ],
+  "urgency_level": "LOW",
+  "risk_score": 2,
+  "symptoms_found": [
+    "Reported Dental Discomfort",
+    "Gingival Bleeding on Brushing / Flossing"
+  ],
+  "recommendation": "🟢 LOW RISK: Maintain daily oral hygiene and routine dental checkups.",
+  "detected_from_image": null,
+  "image_url": null,
+  "assessment_id": "eea62ffe-ae6a-4fb5-b0fc-8120c6601cc8",
+  "user_name": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2"
+}

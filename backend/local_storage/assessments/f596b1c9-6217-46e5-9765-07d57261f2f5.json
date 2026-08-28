@@ -1,0 +1,53 @@
+{
+  "user_id": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2",
+  "session_id": "f596b1c9-6217-46e5-9765-07d57261f2f5",
+  "conversation_transcript": [
+    {
+      "sender": "bot",
+      "text": "🦷 PerioVoice AI: Hi! Tell me what’s bothering you about your teeth or gums today. You can describe it in your own words."
+    },
+    {
+      "sender": "user",
+      "text": "hi"
+    },
+    {
+      "sender": "bot",
+      "text": "Hey! I'm here to help figure out what's going on with your teeth or gums. What's bothering you today?"
+    },
+    {
+      "sender": "user",
+      "text": "Slight swelling on my right cheek"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for sharing that — swelling is noted. Since swelling is present, I want to check for safety: are you experiencing any difficulty breathing or difficulty swallowing?"
+    },
+    {
+      "sender": "user",
+      "text": "yes"
+    },
+    {
+      "sender": "bot",
+      "text": "Thanks for that detail. How long has the swelling been present?"
+    },
+    {
+      "sender": "user",
+      "text": "for 6 days"
+    },
+    {
+      "sender": "bot",
+      "text": "Noted, so this has been going on for 6 days. Does anything specific trigger the pain, like cold drinks, hot food, sweets, or biting?"
+    }
+  ],
+  "urgency_level": "EMERGENCY",
+  "risk_score": 6,
+  "symptoms_found": [
+    "Spreading Facial Cellulitis",
+    "Reported Dental Discomfort"
+  ],
+  "recommendation": "🚨 EMERGENCY: Seek urgent clinical dental or emergency room evaluation within 24 hours.",
+  "detected_from_image": null,
+  "image_url": null,
+  "assessment_id": "f596b1c9-6217-46e5-9765-07d57261f2f5",
+  "user_name": "XNH8dQhHVeY9Y1hbHGPabdTV0fL2"
+}
