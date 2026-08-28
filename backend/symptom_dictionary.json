@@ -1,0 +1,435 @@
+{
+  "bleeding_gums_brushing": {
+    "keywords": [
+      "bleeding",
+      "bleed",
+      "blood",
+      "bleeding gums",
+      "bleeds when brushing",
+      "bleeding on flossing",
+      "blood in sink",
+      "blood when spitting",
+      "pink toothbrush",
+      "bleeding when touching",
+      "gums bleed easily",
+      "bleeding near molars",
+      "bleeding front teeth",
+      "bld",
+      "bleeeeding",
+      "இரத்தம்",
+      "ஈறு இரத்தம்",
+      "பல் துலக்கும்போது இரத்தம்",
+      "ஈறுகளில் ரத்தம்"
+    ],
+    "risk_weight": 3,
+    "category": "bleeding",
+    "urgency_flag": "Low",
+    "display_name": "Gingival Bleeding on Brushing / ஈறுகளில் இரத்தம் வடிதல்"
+  },
+  "spontaneous_bleeding": {
+    "keywords": [
+      "spontaneous bleeding",
+      "bleeding at rest",
+      "uncontrolled bleeding",
+      "heavy bleeding",
+      "bleeding won't stop",
+      "gums dripping blood",
+      "constant bleeding",
+      "blood filling mouth",
+      "heavy gum hemorrhage",
+      "unending bleeding",
+      "அதிக இரத்தம்",
+      "தொடர் இரத்தம்",
+      "இரத்தப்போக்கு"
+    ],
+    "risk_weight": 6,
+    "category": "bleeding",
+    "urgency_flag": "High",
+    "display_name": "Spontaneous Gum Hemorrhage / தன்னிச்சையான ஈறு இரத்தப்போக்கு"
+  },
+  "mild_swelling": {
+    "keywords": [
+      "mild swelling",
+      "slightly swollen",
+      "puffy gums",
+      "tender gums",
+      "redness",
+      "puffy tissue",
+      "swollen gum ridge",
+      "inflamed gums",
+      "gingival edema",
+      "gums inflamed",
+      "swollen around tooth",
+      "sweel",
+      "swoling",
+      "puffy",
+      "வீக்கம்",
+      "ஈறு வீக்கம்",
+      "லேசான வீக்கம்",
+      "ஈறு தடிப்பு"
+    ],
+    "risk_weight": 3,
+    "category": "swelling",
+    "urgency_flag": "Low",
+    "display_name": "Localized Gum Erythema & Edema / ஈறு வீக்கம்"
+  },
+  "severe_facial_swelling": {
+    "keywords": [
+      "severe swelling",
+      "swollen face",
+      "cheek swelling",
+      "eye swelling",
+      "neck swelling",
+      "facial edema",
+      "huge swelling",
+      "jaw swelling",
+      "cheek puffed up",
+      "face looks uneven",
+      "cellulitis",
+      "facial abscess",
+      "கன்னம் வீக்கம்",
+      "முக வீக்கம்",
+      "அதிக வீக்கம்"
+    ],
+    "risk_weight": 9,
+    "category": "infection",
+    "urgency_flag": "Emergency",
+    "display_name": "Severe Facial Cellulitis / Abscess / கடுமையான முக வீக்கம்"
+  },
+  "pus_discharge": {
+    "keywords": [
+      "pus",
+      "discharge",
+      "exudate",
+      "suppuration",
+      "pimple on gum",
+      "gum boil",
+      "bad taste pus",
+      "white pus",
+      "yellow pus",
+      "draining pus",
+      "gum abscess",
+      "pus pocket",
+      "சீழ்",
+      "ஈறு சீழ்",
+      "சீழ் வடிதல்"
+    ],
+    "risk_weight": 7,
+    "category": "infection",
+    "urgency_flag": "High",
+    "display_name": "Periodontal Abscess / Suppuration / ஈறு சீழ் வடிதல்"
+  },
+  "diastema_teeth_gap": {
+    "keywords": [
+      "gap",
+      "gape",
+      "tooth gap",
+      "teeth gap",
+      "gap between teeth",
+      "space between teeth",
+      "spacing",
+      "wide teeth",
+      "front teeth gap",
+      "gap widening",
+      "interdental space",
+      "diastema",
+      "food packing gap",
+      "gaps",
+      "gapy teeth",
+      "பல் இடைவெளி",
+      "பற்களுக்கு இடையே இடைவெளி",
+      "இடைவெளி"
+    ],
+    "risk_weight": 2,
+    "category": "structural",
+    "urgency_flag": "Low",
+    "display_name": "Dental Diastema / Interdental Spacing / பல் இடைவெளி"
+  },
+  "tooth_sensitivity": {
+    "keywords": [
+      "sensitivity",
+      "sensitive",
+      "sensitiv",
+      "cold sensitivity",
+      "hot sensitivity",
+      "sweet sensitivity",
+      "zapping pain",
+      "sharp sudden pain",
+      "cold water zaps tooth",
+      "sensitive to ice",
+      "sensitive to coffee",
+      "dentin hypersensitivity",
+      "cold trigger pain",
+      "hot trigger pain",
+      "பல் கூச்சம்",
+      "குளிர்ந்த நீர் கூச்சம்"
+    ],
+    "risk_weight": 3,
+    "category": "sensitivity",
+    "urgency_flag": "Low",
+    "display_name": "Dentin Hypersensitivity / பல் கூச்சம்"
+  },
+  "chipped_broken_tooth": {
+    "keywords": [
+      "broken tooth",
+      "chipped tooth",
+      "cracked tooth",
+      "fractured tooth",
+      "sharp tooth edge",
+      "sharp edge cutting tongue",
+      "sharp edge cutting cheek",
+      "piece of tooth came off",
+      "tooth broke",
+      "bitten hard food tooth broke",
+      "split tooth",
+      "broken cusp",
+      "பல் உடைந்தது",
+      "பல் விரிசல்"
+    ],
+    "risk_weight": 5,
+    "category": "structural",
+    "urgency_flag": "Moderate",
+    "display_name": "Fractured / Chipped Tooth / பல் முறிவு"
+  },
+  "mouth_ulcer_sore": {
+    "keywords": [
+      "ulcer",
+      "mouth ulcer",
+      "canker sore",
+      "canker",
+      "blister",
+      "sore on gum",
+      "gum ulcer",
+      "tongue ulcer",
+      "cheek sore",
+      "white spot in mouth",
+      "painful mouth sore",
+      "aphthous ulcer",
+      "வாய்ப்புண்",
+      "நாக்கு புண்",
+      "வாய் கொப்புளம்"
+    ],
+    "risk_weight": 3,
+    "category": "lesion",
+    "urgency_flag": "Low",
+    "display_name": "Aphthous Stomatitis / Oral Ulcer / வாய்ப்புண்"
+  },
+  "wisdom_tooth_pericoronitis": {
+    "keywords": [
+      "wisdom tooth",
+      "wisdom pain",
+      "wisdom tooth pain",
+      "back molar pain",
+      "pericoronitis",
+      "jaw pain back",
+      "third molar pain",
+      "impaction pain",
+      "back gum swollen behind molar",
+      "wisdom tooth emerging",
+      "அறிவுப் பல் வலி",
+      "கடைவாய் பல் வலி"
+    ],
+    "risk_weight": 5,
+    "category": "impaction",
+    "urgency_flag": "Moderate",
+    "display_name": "Pericoronitis / Wisdom Tooth Impaction / அறிவுப் பல் வீக்கம்"
+  },
+  "tartar_calculus_buildup": {
+    "keywords": [
+      "tartar",
+      "calculus",
+      "yellow buildup",
+      "brown buildup",
+      "dirty teeth",
+      "stains on teeth",
+      "plaque",
+      "hard buildup",
+      "crust on teeth",
+      "calculus deposits",
+      "black stains teeth",
+      "பற்காரை",
+      "மஞ்சள் கரை",
+      "பல் கரை"
+    ],
+    "risk_weight": 3,
+    "category": "hygiene",
+    "urgency_flag": "Low",
+    "display_name": "Dental Calculus & Calculus Deposit / பற்காரை"
+  },
+  "food_impaction": {
+    "keywords": [
+      "food stuck",
+      "food packing",
+      "food trapped between teeth",
+      "food stuck in gap",
+      "always getting meat stuck",
+      "food impaction",
+      "meat stuck between teeth",
+      "உணவு மாட்டுதல்"
+    ],
+    "risk_weight": 2,
+    "category": "hygiene",
+    "urgency_flag": "Low",
+    "display_name": "Interdental Food Impaction / உணவு மாட்டுதல்"
+  },
+  "loose_teeth": {
+    "keywords": [
+      "loose tooth",
+      "loose teeth",
+      "wobbly tooth",
+      "shifting teeth",
+      "moving tooth",
+      "mobility",
+      "tooth feels loose",
+      "teeth wobbly",
+      "periodontal mobility",
+      "பல் ஆட்டம்",
+      "ஆடும் பல்"
+    ],
+    "risk_weight": 6,
+    "category": "structural",
+    "urgency_flag": "Moderate",
+    "display_name": "Tooth Mobility (Attachment Loss) / பல் ஆட்டம்"
+  },
+  "tooth_knocked_out": {
+    "keywords": [
+      "knocked out",
+      "avulsed tooth",
+      "broken tooth trauma",
+      "trauma",
+      "fall accident tooth",
+      "tooth lost in accident",
+      "sports injury tooth",
+      "பல் உடைந்தது",
+      "பல் விழுந்தது"
+    ],
+    "risk_weight": 10,
+    "category": "trauma",
+    "urgency_flag": "Emergency",
+    "display_name": "Dental Avulsion Trauma / பல் அதிர்ச்சி"
+  },
+  "bad_breath_halitosis": {
+    "keywords": [
+      "bad breath",
+      "halitosis",
+      "bad taste",
+      "foul taste",
+      "foul odor",
+      "mouth smells bad",
+      "persistent bad breath",
+      "smelly breath",
+      "துர்நாற்றம்",
+      "வாய் துர்நாற்றம்"
+    ],
+    "risk_weight": 3,
+    "category": "hygiene",
+    "urgency_flag": "Low",
+    "display_name": "Persistent Halitosis / வாய் துர்நாற்றம்"
+  },
+  "receding_gums": {
+    "keywords": [
+      "receding gums",
+      "gum recession",
+      "longer teeth",
+      "exposed roots",
+      "root exposure",
+      "gums shrinking",
+      "gums pulling back",
+      "ஈறு தேய்மானம்",
+      "பல் கூச்சம்"
+    ],
+    "risk_weight": 4,
+    "category": "structural",
+    "urgency_flag": "Moderate",
+    "display_name": "Gingival Recession / ஈறு தேய்மானம்"
+  },
+  "mild_pain": {
+    "keywords": [
+      "mild pain",
+      "slight ache",
+      "soreness",
+      "discomfort",
+      "pain 1",
+      "pain 2",
+      "pain 3",
+      "pain 4",
+      "dull ache",
+      "mild toothache",
+      "slightly hurting",
+      "லேசான வலி",
+      "பல் வலி"
+    ],
+    "risk_weight": 2,
+    "category": "pain",
+    "urgency_flag": "Low",
+    "display_name": "Mild Periodontal Discomfort / லேசான பல் வலி"
+  },
+  "moderate_pain": {
+    "keywords": [
+      "moderate pain",
+      "throbbing",
+      "pain 5",
+      "pain 6",
+      "pain 7",
+      "throbbing pain",
+      "toothache",
+      "constant ache",
+      "pain when chewing",
+      "மிதமான வலி",
+      "துடிக்கும் வலி"
+    ],
+    "risk_weight": 5,
+    "category": "pain",
+    "urgency_flag": "Moderate",
+    "display_name": "Moderate Dental Odontalgia / மிதமான பல் வலி"
+  },
+  "severe_throbbing_pain": {
+    "keywords": [
+      "severe pain",
+      "unbearable pain",
+      "excruciating pain",
+      "pain 8",
+      "pain 9",
+      "pain 10",
+      "can't sleep pain",
+      "unbearable toothache",
+      "extreme throb",
+      "கடுமையான வலி",
+      "தாங்க முடியாத வலி"
+    ],
+    "risk_weight": 8,
+    "category": "pain",
+    "urgency_flag": "High",
+    "display_name": "Severe Acute Periodontal Pain / கடுமையான பல் வலி"
+  },
+  "fever_with_toothache": {
+    "keywords": [
+      "fever",
+      "chills",
+      "high temperature",
+      "fever with pain",
+      "tooth pain fever",
+      "காய்ச்சல்"
+    ],
+    "risk_weight": 8,
+    "category": "systemic",
+    "urgency_flag": "High",
+    "display_name": "Systemic Infection / Pyrexia / காய்ச்சலுடன் பல் வலி"
+  },
+  "difficulty_swallowing": {
+    "keywords": [
+      "difficulty swallowing",
+      "hard to breathe",
+      "trismus",
+      "can't open mouth",
+      "choking",
+      "swallowing pain neck",
+      "விழுங்க இயலவில்லை",
+      "வாய் திறக்க முடியாது"
+    ],
+    "risk_weight": 10,
+    "category": "infection",
+    "urgency_flag": "Emergency",
+    "display_name": "Airway Constriction Risk / விழுங்க கடினம்"
+  }
+}

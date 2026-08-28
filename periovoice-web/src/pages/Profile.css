@@ -1,65 +1,287 @@
+/* Profile.css — Android-first */
+
 .profile-page {
-  min-height: 100vh;
+  padding: 20px 16px;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Hero card */
+.profile-hero {
+  padding: 22px 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-radius: 18px;
+}
+
+.avatar-large {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #ecfeff, #f0fdfa);
-  padding: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 6px 18px rgba(6, 182, 212, 0.32);
 }
 
-.profile-card {
-  width: 100%;
-  max-width: 460px;
-  background: white;
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 20px 50px rgba(15, 118, 110, 0.15);
-  text-align: center;
+.user-info h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.25;
 }
 
-.profile-avatar {
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 15px;
-  border-radius: 50%;
-  background: #ccfbf1;
+.user-email {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.guest-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.1);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-top: 6px;
+  font-weight: 600;
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+/* Form cards */
+.profile-form,
+.system-card {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 18px;
+}
+
+.form-title {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 42px;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 12px;
 }
 
-.profile-info {
-  text-align: left;
-  margin: 25px 0;
-  background: #f8fafc;
-  padding: 18px;
-  border-radius: 16px;
+.form-title h3 { font-size: 1rem; font-weight: 700; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
 }
 
-.profile-info p {
-  margin: 12px 0;
-  color: #334155;
-  word-break: break-word;
+.input-group { display: flex; flex-direction: column; gap: 6px; }
+
+.input-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
-.profile-btn,
-.logout-btn {
+.input-group input,
+.input-group select {
   width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 14px;
-  margin-top: 12px;
-  font-weight: 700;
+  padding: 0 14px;
+  height: var(--android-input-height, 56px);
+  border-radius: 12px;
+  border: 1px solid var(--border-glass);
+  background: var(--bg-input);
+  color: var(--text-main);
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+}
+
+/* Status rows */
+.status-rows { display: flex; flex-direction: column; gap: 12px; }
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-glass);
+  min-height: 48px;
+}
+
+.status-row span { color: var(--text-muted); }
+
+/* Stats strip */
+.profile-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+
+.profile-stat-card {
+  flex: 1;
+  min-width: 150px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   cursor: pointer;
+  border-radius: 14px;
+  transition: transform 0.18s ease, border-color 0.18s ease;
 }
 
-.profile-btn {
-  background: #0d9488;
+.profile-stat-card:hover  { transform: translateY(-2px); border-color: var(--border-glow); }
+.profile-stat-card:active { transform: scale(0.97); }
+
+.profile-stat-card div { display: flex; flex-direction: column; }
+
+.stat-number {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.stat-label { font-size: 0.76rem; color: var(--text-subtle); font-weight: 600; }
+
+/* Buttons */
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
   color: white;
+  border: none;
+  padding: 0 24px;
+  height: var(--android-btn-height, 52px);
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.26);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.logout-btn {
-  background: #fee2e2;
-  color: #b91c1c;
+.primary-btn:hover    { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(6, 182, 212, 0.38); }
+.primary-btn:active   { transform: scale(0.97); }
+.primary-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.secondary-btn {
+  background: var(--bg-input);
+  border: 1px solid var(--border-glass);
+  color: var(--text-main);
+  padding: 0 24px;
+  height: var(--android-btn-height, 52px);
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.secondary-btn:hover  { background: rgba(255,255,255,0.08); }
+.secondary-btn:active { transform: scale(0.97); }
+
+.danger-btn {
+  border-color: rgba(244, 63, 94, 0.22);
+  color: var(--accent-rose);
+}
+
+.danger-btn:hover,
+.danger-btn:active {
+  background: rgba(244, 63, 94, 0.1) !important;
+  border-color: var(--accent-rose) !important;
+}
+
+/* =================== ANDROID OVERRIDES =================== */
+@media (max-width: 480px) {
+  .profile-page { padding: 14px !important; gap: 14px !important; }
+
+  .profile-hero {
+    padding: 16px !important;
+    gap: 14px !important;
+    border-radius: 16px !important;
+  }
+
+  .avatar-large {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 14px !important;
+  }
+
+  .user-info h3  { font-size: 1.05rem !important; }
+  .user-email    { font-size: 0.8rem !important; }
+
+  .profile-form,
+  .system-card {
+    padding: 16px !important;
+    gap: 14px !important;
+    border-radius: 14px !important;
+  }
+
+  .form-title h3 { font-size: 0.92rem !important; }
+  .form-grid     { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  .input-group label { font-size: 0.76rem !important; }
+
+  .input-group input,
+  .input-group select {
+    height: var(--android-input-height) !important;
+    font-size: 0.92rem !important;
+    border-radius: 10px !important;
+  }
+
+  .status-row { font-size: 0.82rem !important; min-height: 50px !important; }
+
+  .profile-stats   { gap: 10px !important; }
+  .profile-stat-card {
+    padding: 13px 14px !important;
+    border-radius: 12px !important;
+  }
+
+  .stat-number { font-size: 1.12rem !important; }
+  .stat-label  { font-size: 0.72rem !important; }
+
+  .profile-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100% !important;
+    height: var(--android-btn-height) !important;
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+    padding: 0 16px !important;
+  }
 }

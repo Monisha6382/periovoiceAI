@@ -1,0 +1,34 @@
+{
+  "bleeding": [
+    "Do your gums bleed only when brushing/flossing, or does it happen spontaneously without touching?",
+    "How long have you noticed bleeding from your gums?"
+  ],
+  "swelling": [
+    "Is the swelling confined to a small gum area, or is it spreading to your cheek/face?",
+    "Do you feel warmth, fever, or noticeable throbbing around the swollen area?"
+  ],
+  "pain": [
+    "On a scale of 1 to 10, how intense is your tooth or gum pain?",
+    "Is the pain constant, or is it triggered mostly by hot, cold, or chewing?"
+  ],
+  "structural": [
+    "Do your teeth feel loose or wobbly when you bite down?",
+    "Have you noticed your gums shrinking or teeth looking noticeably longer?"
+  ],
+  "infection": [
+    "Is there any visible pus, discharge, or foul taste coming from the gum area?",
+    "Do you have a fever or difficulty opening your mouth?"
+  ],
+  "sensitivity": [
+    "Does the sensitivity linger for more than 30 seconds after cold or hot liquids?",
+    "Do you feel sharp pain near the root or gum line?"
+  ],
+  "systemic": [
+    "Do you have a history of diabetes or regular tobacco/smoking use?",
+    "When was your last professional dental checkup or scaling?"
+  ],
+  "general": [
+    "How many days or weeks have these symptoms been present?",
+    "Are you experiencing any other discomfort in your teeth or gums?"
+  ]
+}

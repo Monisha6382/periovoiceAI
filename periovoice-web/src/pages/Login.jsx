@@ -1,16 +1,15 @@
-/**
- * Login.jsx — PerioVoice AI
- * Login and Register page.
- * Supports email/password and Google login.
- */
 import {
   signInWithPopup,
   sendPasswordResetEmail,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendEmailVerification
+  sendEmailVerification,
+  GoogleAuthProvider,
+  signInWithCredential
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
+import { Capacitor } from "@capacitor/core";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { auth, googleProvider } from "../firebase";
 import React, { useState } from "react";
@@ -88,13 +87,11 @@ await sendEmailVerification(userCredential.user);
     setLoading(false);
     return;
   }
+  await updateDoc(doc(db, "users", userCredential.user.uid), {
+  lastLogin: new Date().toISOString(),
+});
 
-  login({
-    uid: userCredential.user.uid,
-    name: userCredential.user.displayName || email.split("@")[0],
-    email: userCredential.user.email,
-    createdAt: new Date().toISOString(),
-  });
+  login({ uid: userCredential.user.uid, name: userCredential.user.displayName || email.split("@")[0], email: userCredential.user.email, lastLogin: new Date().toISOString() });
 
   navigate("/");
 }
@@ -119,30 +116,96 @@ await sendEmailVerification(userCredential.user);
   };
 
   // ========== HANDLE GOOGLE LOGIN ==========
-  
-    // Demo Google login — replace with Firebase Google Auth in production
-    const handleGoogleLogin = async () => {
-  try {
-    setLoading(true);
-    setError("");
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-    const result = await signInWithPopup(auth, googleProvider);
-    const firebaseUser = result.user;
+      let firebaseUser = null;
+      const isNative = Capacitor.isNativePlatform() || (typeof window !== "undefined" && window.location.protocol === "capacitor:");
 
-    login({
-      uid: firebaseUser.uid,
-      name: firebaseUser.displayName || "Google User",
-      email: firebaseUser.email,
-      createdAt: new Date().toISOString(),
-    });
+      if (isNative) {
+        try {
+          const result = await FirebaseAuthentication.signInWithGoogle();
+          const idToken = result.credential?.idToken;
+          if (idToken) {
+            const credential = GoogleAuthProvider.credential(idToken);
+            const userCredential = await signInWithCredential(auth, credential);
+            firebaseUser = userCredential.user;
+          } else if (result.user) {
+            firebaseUser = result.user;
+          }
+        } catch (nativeErr) {
+          console.warn("Native Google auth prompt error, attempting Web SDK popup:", nativeErr);
+          try {
+            const result = await signInWithPopup(auth, googleProvider);
+            firebaseUser = result.user;
+          } catch (webPopupErr) {
+            setError("Google Sign-In requires selecting a valid Google account. Please log in with Email/Password or Continue as Guest.");
+            setLoading(false);
+            return;
+          }
+        }
+      } else {
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          firebaseUser = result.user;
+        } catch (popupErr) {
+          setError("Google Sign-In was cancelled or failed. Please select your Google account or log in with Email.");
+          setLoading(false);
+          return;
+        }
+      }
 
-    navigate("/");
-  } catch (err) {
-    setError("Google login failed. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+      if (firebaseUser) {
+        const userData = {
+          uid: firebaseUser.uid,
+          name: firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "Google Patient",
+          email: firebaseUser.email || "patient@periovoice.ai",
+          photoURL: firebaseUser.photoURL || "",
+          lastLogin: new Date().toISOString(),
+          isGuest: false
+        };
+
+        try {
+          await setDoc(doc(db, "users", firebaseUser.uid), userData, { merge: true });
+        } catch (e) {
+          console.warn("Firestore user sync:", e);
+        }
+
+        login(userData);
+        navigate("/");
+      }
+    } catch (err) {
+      console.error("Google login error:", err);
+      setError("Google Login Error: " + (err.message || "Authentication failed."));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+const handleGuestLogin = async () => {
+    try {
+      const anonRes = await signInAnonymously(auth);
+      const guestUser = {
+        uid: anonRes.user.uid,
+        name: "Guest Patient",
+        email: "guest@periovoice.ai",
+        isGuest: true
+      };
+      login(guestUser);
+      navigate("/");
+    } catch (e) {
+      const fallbackGuest = {
+        uid: "guest_" + Math.random().toString(36).substr(2, 9),
+        name: "Guest Patient",
+        email: "guest@periovoice.ai",
+        isGuest: true
+      };
+      login(fallbackGuest);
+      navigate("/");
+    }
+  };
 const handleForgotPassword = async () => {
   if (!email) {
     setError("Please enter your email first.");
@@ -269,6 +332,25 @@ const handleForgotPassword = async () => {
               <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
             </svg>
             Continue with Google
+          </button>
+
+          <button className="btn-guest" onClick={handleGuestLogin} style={{
+            width: '100%',
+            padding: '12px',
+            borderRadius: '12px',
+            border: '1px dashed var(--border-glass)',
+            background: 'transparent',
+            color: 'var(--text-main)',
+            fontWeight: 600,
+            cursor: 'pointer',
+            marginTop: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            transition: 'all 0.2s ease'
+          }}>
+            Continue as Guest
           </button>
         </div>
 

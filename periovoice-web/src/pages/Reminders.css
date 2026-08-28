@@ -1,0 +1,275 @@
+/* Reminders.css — Android-first */
+
+.reminders-page {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-header h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.page-header p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* Streak card */
+.streak-card {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(244, 63, 94, 0.06));
+  border-color: rgba(245, 158, 11, 0.25);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.streak-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: rgba(245, 158, 11, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.streak-info h3 { font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+.streak-info p  { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
+
+.streak-progress {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.streak-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-amber), var(--accent-rose));
+  transition: width 0.4s ease;
+}
+
+/* Section block */
+.section-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Habits */
+.habits-list { display: flex; flex-direction: column; gap: 10px; }
+
+.habit-item {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  border-radius: 14px;
+  transition: all 0.18s ease;
+  min-height: 56px;
+}
+
+.habit-item:active { transform: scale(0.99); }
+
+.habit-item.completed {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.habit-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.habit-item.completed .habit-title {
+  text-decoration: line-through;
+  color: var(--text-subtle);
+}
+
+/* Small action button */
+.primary-btn.sm {
+  padding: 0 14px;
+  height: 40px;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.24);
+  transition: all 0.18s ease;
+}
+
+.primary-btn.sm:hover  { transform: translateY(-1px); }
+.primary-btn.sm:active { transform: scale(0.96); }
+
+/* Reminder list rows */
+.reminders-list { display: flex; flex-direction: column; gap: 10px; }
+
+.reminder-card {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 14px;
+  min-height: 60px;
+}
+
+.reminder-main { display: flex; align-items: center; gap: 14px; }
+.reminder-main h4 { font-size: 0.94rem; font-weight: 700; }
+.reminder-meta  { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-subtle);
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.delete-btn:hover,
+.delete-btn:active {
+  color: var(--accent-rose);
+  background: rgba(244, 63, 94, 0.1);
+}
+
+/* Add reminder form */
+.form-group { margin-bottom: 14px; }
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0 14px;
+  height: var(--android-input-height, 56px);
+  border-radius: 12px;
+  border: 1px solid var(--border-glass);
+  background: var(--bg-input);
+  color: var(--text-main);
+  outline: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.form-actions button {
+  height: var(--android-btn-height, 52px);
+  padding: 0 20px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+/* =================== ANDROID OVERRIDES =================== */
+@media (max-width: 480px) {
+  .reminders-page { padding: 14px !important; gap: 16px !important; }
+
+  .page-header h2 { font-size: 1.15rem !important; }
+  .page-header p  { font-size: 0.82rem !important; }
+
+  .streak-card {
+    padding: 15px !important;
+    gap: 12px !important;
+    border-radius: 14px !important;
+  }
+
+  .streak-icon {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 12px !important;
+  }
+
+  .streak-info h3 { font-size: 0.96rem !important; }
+  .streak-info p  { font-size: 0.8rem !important; }
+
+  .habit-item {
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+    gap: 10px !important;
+    min-height: 54px !important;
+  }
+
+  .habit-title { font-size: 0.88rem !important; }
+
+  .reminder-card {
+    padding: 13px 14px !important;
+    border-radius: 12px !important;
+    min-height: 58px !important;
+  }
+
+  .reminder-main h4 { font-size: 0.88rem !important; }
+  .reminder-meta    { font-size: 0.74rem !important; }
+
+  .form-group         { margin-bottom: 10px !important; }
+  .form-group label   { font-size: 0.76rem !important; }
+
+  .form-group input {
+    height: var(--android-input-height) !important;
+    font-size: 0.92rem !important;
+    border-radius: 10px !important;
+  }
+
+  .form-actions {
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-top: 14px !important;
+  }
+
+  .form-actions button {
+    width: 100% !important;
+    height: var(--android-btn-height) !important;
+    border-radius: 12px !important;
+    font-size: 0.88rem !important;
+  }
+}

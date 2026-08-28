@@ -1,18 +1,21 @@
 """
-Firebase Configuration for PerioVoice AI.
-Handles connection to Firebase Firestore and Authentication.
-
-Note: You'll need to:
-1. Create a Firebase project at https://console.firebase.google.com
-2. Download your service account JSON
-3. Set the path in the GOOGLE_APPLICATION_CREDENTIALS environment variable
+firebase_config.py — PerioVoice AI™ Firebase Manager
+Handles connections to Firebase Admin SDK, Firestore database, and Cloud Storage.
+Supports robust credential resolution, idempotent document saves, health checks, and local fallback logging.
 """
 
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-from firebase_admin import storage
 import os
+import json
+from datetime import datetime
+from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import credentials, firestore, storage
+
+load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
 
 class FirebaseManager:
@@ -21,21 +24,43 @@ class FirebaseManager:
     """
 
     def __init__(self):
-        """Initialize Firebase connection."""
         self.db = None
         self.storage_bucket = None
+        self.project_id = None
+        self.is_initialized = False
         self.initialize_firebase()
+
+    def _resolve_cred_path(self) -> str:
+        """Robustly resolve the path to firebase-key.json across environments."""
+        env_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+        candidate_paths = []
+
+        if env_path:
+            candidate_paths.append(env_path)
+            candidate_paths.append(os.path.join(BASE_DIR, env_path))
+            candidate_paths.append(os.path.join(PROJECT_ROOT, env_path))
+
+        candidate_paths.extend([
+            os.path.join(BASE_DIR, "firebase-key.json"),
+            os.path.join(PROJECT_ROOT, "firebase-key.json"),
+            os.path.join(os.getcwd(), "firebase-key.json"),
+            os.path.join(os.getcwd(), "backend", "firebase-key.json")
+        ])
+
+        for path in candidate_paths:
+            if path and os.path.exists(path):
+                return os.path.abspath(path)
+        return ""
 
     def initialize_firebase(self):
         """
-        Initialize Firebase Admin SDK.
-        Credentials and optional bucket settings are read from environment variables.
+        Initialize Firebase Admin SDK with visible startup logging.
         """
         try:
-            # Firebase configuration from environment
-            cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-            project_id = os.getenv("FIREBASE_PROJECT_ID")
-            storage_bucket = os.getenv("FIREBASE_STORAGE_BUCKET")
+            cred_path = self._resolve_cred_path()
+            project_id = os.getenv("FIREBASE_PROJECT_ID", "periovoiceai")
+            storage_bucket = os.getenv("FIREBASE_STORAGE_BUCKET", "periovoiceai.firebasestorage.app")
+            self.project_id = project_id
 
             if not firebase_admin._apps:
                 if cred_path and os.path.exists(cred_path):
@@ -45,106 +70,157 @@ class FirebaseManager:
                         "storageBucket": storage_bucket,
                     })
                 else:
-                    # If no service account file is explicitly provided, try application default credentials
+                    # Attempt application default credentials fallback
                     firebase_admin.initialize_app(options={
                         "projectId": project_id,
                         "storageBucket": storage_bucket,
                     })
 
             self.db = firestore.client()
-            if storage_bucket:
-                self.storage_bucket = storage.bucket(storage_bucket)
-            else:
-                self.storage_bucket = storage.bucket()
+            try:
+                self.storage_bucket = storage.bucket(storage_bucket) if storage_bucket else storage.bucket()
+            except Exception:
+                self.storage_bucket = None
 
-            print("✅ Firebase initialized successfully")
+            self.is_initialized = True
+            print("\n==================================================")
+            print("🔥 Firebase Initialized Successfully")
+            print(f"📌 Project ID: {project_id}")
+            print("⚡ Firestore: CONNECTED")
             if self.storage_bucket:
-                print(f"✅ Firebase storage bucket configured: {self.storage_bucket.name}")
+                print(f"📦 Storage Bucket: {self.storage_bucket.name}")
+            print("==================================================\n")
 
         except Exception as e:
-            print(f"⚠️ Firebase initialization failed: {e}")
-            print("The app will work but won't save data to Firestore or Storage.")
+            self.is_initialized = False
+            print("\n==================================================")
+            print("⚠️ Firebase initialization FAILED")
+            print(f"Reason: {str(e)}")
+            print("Firestore writes will NOT be available (local storage fallback active).")
+            print("==================================================\n")
+
+    def get_health_status(self) -> dict:
+        """Returns non-sensitive health and connection status for /api/firebase/health."""
+        return {
+            "firebase_initialized": self.is_initialized and self.db is not None,
+            "firestore_connected": self.db is not None,
+            "storage_configured": self.storage_bucket is not None,
+            "project_id": self.project_id or "periovoiceai"
+        }
 
     def save_user(self, user_id: str, user_data: dict) -> bool:
-        """Save user data to Firestore."""
+        """Save user profile data to Firestore document users/<user_id> with merge=True."""
         try:
-            if self.db is None:
+            if not self.db:
                 return False
-            self.db.collection("users").document(user_id).set(user_data, merge=True)
+            user_data["updated_at"] = datetime.now().isoformat()
+            self.db.collection("users").document(str(user_id)).set(user_data, merge=True)
             return True
         except Exception as e:
-            print(f"Error saving user: {e}")
+            print(f"🔥 Error saving user to Firestore: {e}")
             return False
 
     def get_user(self, user_id: str) -> dict:
-        """Retrieve user data from Firestore."""
+        """Retrieve user profile data from Firestore document users/<user_id>."""
         try:
-            if self.db is None:
+            if not self.db:
                 return {}
-            doc = self.db.collection("users").document(user_id).get()
+            doc = self.db.collection("users").document(str(user_id)).get()
             return doc.to_dict() if doc.exists else {}
         except Exception as e:
-            print(f"Error getting user: {e}")
+            print(f"🔥 Error getting user from Firestore: {e}")
             return {}
 
     def save_assessment(self, assessment_data: dict) -> bool:
         """
-        Save an assessment to Firestore.
-        assessment_data should contain all assessment details.
+        Save an assessment to Firestore collection 'assessments' using idempotent document ID.
         """
         try:
-            if self.db is None:
+            if not self.db:
                 return False
-            self.db.collection("assessments").add(assessment_data)
+            
+            doc_id = (
+                assessment_data.get("assessment_id") or
+                assessment_data.get("session_id") or
+                assessment_data.get("id")
+            )
+            
+            # Standardize timestamp fields
+            now_iso = datetime.now().isoformat()
+            now_date = datetime.now().strftime("%Y-%m-%d")
+            
+            payload = dict(assessment_data)
+            if "created_at" not in payload:
+                payload["created_at"] = now_iso
+            if "date" not in payload:
+                payload["date"] = now_date
+            payload["synced"] = True
+
+            if doc_id:
+                self.db.collection("assessments").document(str(doc_id)).set(payload, merge=True)
+            else:
+                self.db.collection("assessments").add(payload)
+                
+            print(f"🔥 Assessment successfully written to Firestore: {doc_id}")
             return True
         except Exception as e:
-            print(f"Error saving assessment: {e}")
+            print(f"🔥 Error saving assessment to Firestore: {e}")
             return False
 
     def get_user_assessments(self, user_id: str) -> list:
-        """Get all assessments for a specific user."""
+        """Get all assessments for a specific user from Firestore."""
         try:
-            if self.db is None:
+            if not self.db:
                 return []
-            docs = (
-                self.db.collection("assessments")
-                .where("user_id", "==", user_id)
-                .order_by("date", direction=firestore.Query.DESCENDING)
-                .stream()
-            )
+            
+            # Primary query: ordered stream
+            try:
+                docs = (
+                    self.db.collection("assessments")
+                    .where("user_id", "==", user_id)
+                    .order_by("created_at", direction=firestore.Query.DESCENDING)
+                    .stream()
+                )
+                assessments = [doc.to_dict() for doc in docs]
+                if assessments:
+                    return assessments
+            except Exception:
+                pass
+
+            # Fallback query without composite index requirement
+            docs = self.db.collection("assessments").where("user_id", "==", user_id).stream()
             assessments = [doc.to_dict() for doc in docs]
+            assessments.sort(key=lambda x: x.get("created_at") or x.get("date") or "", reverse=True)
             return assessments
         except Exception as e:
-            print(f"Error getting assessments: {e}")
+            print(f"🔥 Error getting assessments from Firestore: {e}")
             return []
 
     def upload_image(self, file_path: str, destination_path: str) -> str:
         """
-        Upload an image to Firebase Storage.
-        Returns the download URL.
+        Upload an image file to Firebase Storage. Returns the blob path.
         """
         try:
-            if self.storage_bucket is None:
+            if not self.storage_bucket:
                 return ""
             blob = self.storage_bucket.blob(destination_path)
             blob.upload_from_filename(file_path)
-            blob.make_public()
-            return blob.public_url
+            return blob.name
         except Exception as e:
-            print(f"Error uploading image: {e}")
+            print(f"🔥 Error uploading image to Firebase Storage: {e}")
             return ""
 
     def delete_assessment(self, assessment_id: str) -> bool:
-        """Delete an assessment from Firestore."""
+        """Delete an assessment document from Firestore."""
         try:
-            if self.db is None:
+            if not self.db:
                 return False
-            self.db.collection("assessments").document(assessment_id).delete()
+            self.db.collection("assessments").document(str(assessment_id)).delete()
             return True
         except Exception as e:
-            print(f"Error deleting assessment: {e}")
+            print(f"🔥 Error deleting assessment from Firestore: {e}")
             return False
 
 
-# Create a global Firebase manager instance
+# Global singleton instance
 firebase_manager = FirebaseManager()

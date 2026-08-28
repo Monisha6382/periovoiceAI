@@ -1,0 +1,173 @@
+{
+  "version": "2.0.0",
+  "name": "PerioVoice Clinical Dental & Periodontal Knowledge Database",
+  "locations": [
+    "upper right gum", "upper left gum", "lower right gum", "lower left gum",
+    "upper right molar", "upper left molar", "lower right molar", "lower left molar",
+    "front teeth", "lower front teeth", "upper front teeth", "back teeth",
+    "wisdom tooth area", "roof of mouth", "tongue", "jaw joint"
+  ],
+  "durations": [
+    "just started", "less than 6 hours", "1 to 3 days", "3 to 7 days",
+    "1 to 2 weeks", "3 to 4 weeks", "several months"
+  ],
+  "condition_categories": {
+    "gingivitis": {
+      "display_name": "Gingival Inflammation (Gingivitis)",
+      "description": "Mild, reversible inflammation of the gingival tissue typically caused by plaque buildup.",
+      "typical_urgency": "LOW",
+      "base_risk": 3
+    },
+    "chronic_periodontitis": {
+      "display_name": "Chronic Periodontitis",
+      "description": "Progressive inflammation leading to attachment loss, deep periodontal pockets, and bone loss.",
+      "typical_urgency": "MODERATE",
+      "base_risk": 5
+    },
+    "periodontal_abscess": {
+      "display_name": "Localized Periodontal Abscess",
+      "description": "Acute localized purulent infection within the periodontal tissue requiring prompt clinical drainage.",
+      "typical_urgency": "HIGH",
+      "base_risk": 7
+    },
+    "anug": {
+      "display_name": "Acute Necrotizing Ulcerative Gingivitis (ANUG)",
+      "description": "Rapidly developing painful ulcerated gingival infection with characteristic cratered papillae and halitosis.",
+      "typical_urgency": "HIGH",
+      "base_risk": 8
+    },
+    "irreversible_pulpitis": {
+      "display_name": "Acute Irreversible Pulpitis / Periapical Involvement",
+      "description": "Severe dental pulp inflammation with lingering throbbing pain, sensitive to thermal triggers or percussion.",
+      "typical_urgency": "HIGH",
+      "base_risk": 7
+    },
+    "dental_trauma_avulsion": {
+      "display_name": "Dental Trauma / Tooth Avulsion",
+      "description": "Physical avulsion or fracture of permanent dental structure due to trauma.",
+      "typical_urgency": "EMERGENCY",
+      "base_risk": 10
+    },
+    "cellulitis_ludwigs": {
+      "display_name": "Severe Facial Cellulitis / Submandibular Abscess",
+      "description": "Spreading soft tissue infection with facial edema, fever, or potential airway compromise.",
+      "typical_urgency": "EMERGENCY",
+      "base_risk": 10
+    },
+    "tmj_disorder": {
+      "display_name": "Temporomandibular Joint (TMJ) Dysfunction",
+      "description": "Jaw joint clicking, muscular trismus, or soreness without active acute dental infection.",
+      "typical_urgency": "MODERATE",
+      "base_risk": 4
+    }
+  },
+  "symptoms": {
+    "bleeding_gums": {
+      "keywords": ["bleeding", "bleed", "blood", "bleeding gums", "bleeds when brushing", "இரத்தம்", "ஈறு இரத்தம்"],
+      "weight": 3,
+      "category": "gingivitis",
+      "display_name": "Gingival Bleeding on Brushing / Flossing"
+    },
+    "spontaneous_bleeding": {
+      "keywords": ["spontaneous bleeding", "bleeding at rest", "uncontrolled bleeding", "heavy bleeding", "அதிக இரத்தம்"],
+      "weight": 6,
+      "category": "anug",
+      "display_name": "Spontaneous Gum Hemorrhage"
+    },
+    "mild_swelling": {
+      "keywords": ["mild swelling", "slightly swollen", "puffy gums", "tender gums", "redness", "வீக்கம்", "ஈறு வீக்கம்"],
+      "weight": 3,
+      "category": "gingivitis",
+      "display_name": "Localized Gum Erythema & Edema"
+    },
+    "severe_facial_swelling": {
+      "keywords": ["severe swelling", "swollen face", "cheek swelling", "eye swelling", "neck swelling", "facial edema", "கன்னம் வீக்கம்", "முக வீக்கம்"],
+      "weight": 9,
+      "category": "cellulitis_ludwigs",
+      "urgency_flag": "EMERGENCY",
+      "display_name": "Spreading Facial Cellulitis"
+    },
+    "pus_discharge": {
+      "keywords": ["pus", "discharge", "exudate", "suppuration", "pimple on gum", "gum boil", "சீழ்"],
+      "weight": 7,
+      "category": "periodontal_abscess",
+      "display_name": "Purulent Exudate / Periodontal Abscess"
+    },
+    "loose_teeth": {
+      "keywords": ["loose tooth", "loose teeth", "wobbly tooth", "shifting teeth", "moving tooth", "mobility", "பல் ஆட்டம்"],
+      "weight": 6,
+      "category": "chronic_periodontitis",
+      "display_name": "Tooth Mobility (Attachment Loss)"
+    },
+    "tooth_knocked_out": {
+      "keywords": ["knocked out", "avulsed tooth", "broken tooth trauma", "trauma", "fall", "பல் உடைந்தது", "பல் விழுந்தது"],
+      "weight": 10,
+      "category": "dental_trauma_avulsion",
+      "urgency_flag": "EMERGENCY",
+      "display_name": "Dental Avulsion Trauma"
+    },
+    "bad_breath_halitosis": {
+      "keywords": ["bad breath", "halitosis", "bad taste", "foul taste", "foul odor", "துர்நாற்றம்"],
+      "weight": 3,
+      "category": "gingivitis",
+      "display_name": "Persistent Halitosis / Foul Taste"
+    },
+    "receding_gums": {
+      "keywords": ["receding gums", "gum recession", "longer teeth", "exposed roots", "ஈறு தேய்மானம்"],
+      "weight": 4,
+      "category": "chronic_periodontitis",
+      "display_name": "Gingival Recession / Exposed Roots"
+    },
+    "cold_sensitivity": {
+      "keywords": ["cold sensitivity", "sensitive to cold", "sharp pain with ice", "பல் கூச்சம்"],
+      "weight": 3,
+      "category": "chronic_periodontitis",
+      "display_name": "Thermal Cold Sensitivity"
+    },
+    "hot_sensitivity": {
+      "keywords": ["hot sensitivity", "sensitive to hot", "lingering pain with hot drinks"],
+      "weight": 6,
+      "category": "irreversible_pulpitis",
+      "display_name": "Lingering Thermal Hot Sensitivity"
+    },
+    "mild_pain": {
+      "keywords": ["mild pain", "slight ache", "soreness", "discomfort", "pain 1", "pain 2", "pain 3", "pain 4", "லேசான வலி"],
+      "weight": 2,
+      "category": "gingivitis",
+      "display_name": "Mild Periodontal Discomfort"
+    },
+    "moderate_pain": {
+      "keywords": ["moderate pain", "throbbing", "pain 5", "pain 6", "pain 7", "மிதமான வலி"],
+      "weight": 5,
+      "category": "irreversible_pulpitis",
+      "display_name": "Moderate Odontalgia"
+    },
+    "severe_throbbing_pain": {
+      "keywords": ["severe pain", "unbearable pain", "excruciating pain", "pain 8", "pain 9", "pain 10", "can't sleep", "கடுமையான வலி"],
+      "weight": 8,
+      "category": "irreversible_pulpitis",
+      "display_name": "Severe Acute Throbbing Pain"
+    },
+    "fever": {
+      "keywords": ["fever", "chills", "high temperature", "fever with pain", "காய்ச்சல்"],
+      "weight": 8,
+      "category": "cellulitis_ludwigs",
+      "urgency_flag": "HIGH",
+      "display_name": "Systemic Pyrexia / Fever"
+    },
+    "difficulty_swallowing": {
+      "keywords": ["difficulty swallowing", "hard to breathe", "trismus", "can't open mouth", "விழுங்க இயலவில்லை"],
+      "weight": 10,
+      "category": "cellulitis_ludwigs",
+      "urgency_flag": "EMERGENCY",
+      "display_name": "Trismus / Airway Constriction Risk"
+    }
+  },
+  "emergency_warning_signs": [
+    "Spreading swelling into cheek, eye, or neck",
+    "Difficulty breathing or swallowing saliva",
+    "Inability to open mouth wider than two fingers (Trismus)",
+    "Permanent tooth completely knocked out (Avulsion)",
+    "High fever above 101°F accompanying oral pain"
+  ]
+}

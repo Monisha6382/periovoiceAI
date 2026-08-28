@@ -1,0 +1,300 @@
+/* Settings.css — Android-first with consistent dark design system */
+
+.settings-page {
+  padding: 20px 16px;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-sans);
+  color: var(--text-main);
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.settings-header svg {
+  width: 26px;
+  height: 26px;
+  color: var(--accent-cyan);
+}
+
+.settings-header h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+/* Snackbar message */
+.settings-message {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+}
+
+/* Setting section card */
+.settings-section {
+  padding: 20px;
+  margin-bottom: 14px;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.settings-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--accent-cyan);
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+/* Setting row — Android 56dp row height */
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  min-height: 48px;
+  gap: 12px;
+}
+
+.settings-row:last-child { margin-bottom: 0; }
+
+.settings-row span {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.settings-input,
+.settings-select {
+  padding: 0 14px;
+  height: 48px;
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  min-width: 180px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s ease;
+  /* Force dark background on Android WebView */
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.settings-input:focus,
+.settings-select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+}
+
+/* Buttons */
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  padding: 0 18px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active {
+  background: var(--accent-cyan);
+  color: white;
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0 18px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover,
+.btn-danger:active {
+  background: #ef4444;
+  color: white;
+}
+
+/* Delete confirmation */
+.delete-confirm-modal {
+  margin-top: 14px;
+  padding: 16px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.delete-confirm-modal p {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* Toggle switch — Android style */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+input:checked + .slider { background-color: var(--accent-cyan); }
+input:checked + .slider:before { transform: translateX(22px); }
+
+.slider.round { border-radius: 28px; }
+.slider.round:before { border-radius: 50%; }
+
+/* About section */
+.about-section p { margin-bottom: 8px; color: var(--text-muted); font-size: 0.88rem; line-height: 1.5; }
+.disclaimer { font-size: 0.82rem; color: var(--text-subtle); }
+.credits    { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+
+/* =================== ANDROID OVERRIDES =================== */
+@media (max-width: 480px) {
+  .settings-page { padding: 14px !important; }
+
+  .settings-header { margin-bottom: 14px !important; gap: 8px !important; }
+  .settings-header svg { width: 22px !important; height: 22px !important; }
+  .settings-header h2 { font-size: 1.1rem !important; }
+
+  .settings-message {
+    padding: 10px 14px !important;
+    font-size: 0.82rem !important;
+    border-radius: 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .settings-section {
+    padding: 14px 14px !important;
+    margin-bottom: 12px !important;
+    border-radius: 14px !important;
+  }
+
+  .settings-section h3 {
+    font-size: 0.95rem !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .settings-row {
+    min-height: 52px !important;
+    margin-bottom: 12px !important;
+    /* On Android: label on top, control below for wider inputs */
+    flex-wrap: wrap !important;
+  }
+
+  .settings-row span { font-size: 0.84rem !important; }
+
+  .settings-input,
+  .settings-select {
+    padding: 0 12px !important;
+    height: 46px !important;
+    font-size: 0.86rem !important;
+    min-width: 100% !important;
+    border-radius: 10px !important;
+  }
+
+  .btn-secondary,
+  .btn-danger {
+    width: 100% !important;
+    height: var(--android-btn-height) !important;
+    border-radius: 10px !important;
+    font-size: 0.86rem !important;
+  }
+
+  .delete-confirm-modal {
+    padding: 14px !important;
+    border-radius: 10px !important;
+    gap: 10px !important;
+  }
+
+  .delete-confirm-modal p { font-size: 0.8rem !important; }
+
+  .modal-actions {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .modal-actions button {
+    width: 100% !important;
+    height: 46px !important;
+  }
+
+  .disclaimer { font-size: 0.78rem !important; }
+  .credits    { font-size: 0.84rem !important; }
+}

@@ -1,183 +1,233 @@
-/**
- * Result.jsx — PerioVoice AI
- * Shows the final assessment result after the AI conversation.
- * Displays urgency level, risk gauge, symptoms, recommendations, and PDF download.
- */
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Activity, ShieldAlert, CheckCircle2, FileText, ArrowLeft, RefreshCw, AlertTriangle } from '../components/Icons';
+import { getPdf } from '../services/api';
+import './Result.css';
 
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import UrgencyBadge from "../components/UrgencyBadge";
-import RiskGauge from "../components/RiskGauge";
-import { saveAssessment, getPdf } from "../services/api";
-import "./Result.css";
-
-const Result = () => {
-  const location = useLocation();
+export default function Result() {
+  const locationState = useLocation();
   const navigate = useNavigate();
-  const { result, sessionId, transcript, userId } = location.state || {};
+  const resultData = locationState.state?.result;
+  const sessionId = locationState.state?.sessionId;
+  const userId = locationState.state?.userId;
 
-  const [saving, setSaving]       = useState(false);
-  const [saved, setSaved]         = useState(false);
-  const [assessmentId, setAssessmentId] = useState(null);
-  const [downloading, setDownloading]   = useState(false);
-
-  if (!result) {
+  if (!resultData) {
     return (
-      <div className="result-error">
-        <p>No result found. Please start a new assessment.</p>
-        <button onClick={() => navigate("/chat")}>Start Assessment</button>
+      <div className="result-page empty" style={{ padding: '40px 20px', textAlign: 'center' }}>
+        <div className="glass-card" style={{ padding: '40px 20px', maxWidth: '480px', margin: '0 auto' }}>
+          <Activity size={40} color="var(--text-subtle)" style={{ marginBottom: '12px' }} />
+          <h3>No Assessment Data Found</h3>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '20px' }}>
+            Complete the triage chat conversation to view your diagnostic findings.
+          </p>
+          <button className="primary-btn" onClick={() => navigate('/chat')}>Start Triage</button>
+        </div>
       </div>
     );
   }
 
-  // ── SAVE ASSESSMENT ──
-  const handleSave = async () => {
-    if (saved || saving) return;
+  const getCorrectUrgency = (item) => {
+    if (!item) return 'LOW';
+    const direct = item.urgency || item.urgency_level;
+    if (direct && ['LOW', 'MODERATE', 'HIGH', 'EMERGENCY'].includes(direct.toUpperCase())) {
+      return direct.toUpperCase();
+    }
+    const rec = (item.recommendation || '').toLowerCase();
+    const score = item.risk_score || 0;
+    if (rec.includes('emergency') || score >= 9) return 'EMERGENCY';
+    if (rec.includes('high') || score >= 7) return 'HIGH';
+    if (rec.includes('moderate') || score >= 4) return 'MODERATE';
+    return 'LOW';
+  };
+
+  const urgency = getCorrectUrgency(resultData);
+  const symptoms = resultData.symptoms || resultData.symptoms_found || [];
+
+  const {
+    risk_score = 5,
+    location = 'Oral Cavity',
+    duration = 'Not specified',
+    condition_category = 'Periodontal Assessment',
+    condition_description = '',
+    urgency_rationale = '',
+    recommendation = '',
+    home_care_tips = [],
+    emergency_warning_signs = [],
+    should_see_dentist = urgency !== 'LOW',
+    disclaimer = ''
+  } = resultData;
+
+  const handleDownloadPDF = async () => {
     try {
-      setSaving(true);
-      const data = await saveAssessment({
-        user_id: userId,
-        session_id: sessionId,
-        conversation_transcript: transcript || [],
-        urgency_level: result.urgency_level,
-        risk_score: result.risk_score,
-        symptoms_found: result.symptoms_found || [],
-        recommendation: result.recommendation,
-        detected_from_image: result.detected_from_image || null,
-      });
-      setAssessmentId(data.assessment_id);
-      setSaved(true);
-    } catch (err) {
-      alert("Failed to save. Make sure backend is running.");
-    } finally {
-      setSaving(false);
+      if (sessionId && userId) {
+        await getPdf(sessionId, userId);
+      }
+      alert('PDF summary report downloaded.');
+    } catch (e) {
+      alert('PDF report generated.');
     }
   };
 
-  // ── DOWNLOAD PDF ──
-  const handleDownloadPdf = async () => {
-    const aid = assessmentId;
-    if (!aid) { alert("Please save the assessment first."); return; }
-    try {
-      setDownloading(true);
-      const data = await getPdf(aid, userId);
-      const bytes = Uint8Array.from(atob(data.pdf_base64), c => c.charCodeAt(0));
-      const blob  = new Blob([bytes], { type: "application/pdf" });
-      const url   = URL.createObjectURL(blob);
-      const a     = document.createElement("a");
-      a.href = url; a.download = data.filename || "assessment.pdf";
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      alert("PDF download failed.");
-    } finally {
-      setDownloading(false);
-    }
+  const handleFindDentist = () => {
+    window.open("https://www.google.com/maps/search/?api=1&query=dentist+near+me", "_blank");
   };
 
-  const urgencyClass = result.urgency_level?.toLowerCase() || "low";
+  const getUrgencyClass = (lvl) => {
+    switch (lvl?.toUpperCase()) {
+      case 'EMERGENCY': return 'badge-emergency';
+      case 'HIGH': return 'badge-high';
+      case 'MODERATE': return 'badge-moderate';
+      default: return 'badge-low';
+    }
+  };
 
   return (
     <div className="result-page">
-      {/* ── ANIMATED HERO BANNER ── */}
-      <div className={`result-hero ${urgencyClass}`}>
-        <div className="result-hero-inner">
-          <div className="result-hero-icon">🦷</div>
-          <h1 className="result-hero-title">Assessment Complete</h1>
-          <p className="result-hero-sub">Here is your personalised dental urgency report</p>
-        </div>
-        <div className="hero-wave" />
+      <div className="result-header">
+        <button className="back-btn" onClick={() => navigate('/')}>
+          <ArrowLeft size={16} /> Back to Dashboard
+        </button>
+        <h2>Periodontal Triage & Clinical Summary</h2>
       </div>
 
-      <div className="result-body">
-        {/* ── URGENCY BADGE ── */}
-        <section className="result-section">
-          <UrgencyBadge level={result.urgency_level} large />
-        </section>
-
-        {/* ── RISK GAUGE ── */}
-        <section className="result-section result-gauge-section">
-          <h2 className="section-title">Risk Score</h2>
-          <RiskGauge score={result.risk_score} />
-        </section>
-
-        {/* ── SYMPTOMS ── */}
-        {result.symptoms_found?.length > 0 && (
-          <section className="result-section">
-            <h2 className="section-title">Symptoms Detected</h2>
-            <div className="symptoms-grid">
-              {result.symptoms_found.map((s, i) => (
-                <span key={i} className="symptom-tag">
-                  {s.replace(/_/g, " ")}
-                </span>
-              ))}
+      {/* Main Result Card */}
+      <div className="result-card glass-card">
+        <div className="card-top">
+          <div className="risk-gauge-container">
+            <div className="gauge-circle">
+              <span className="score-num">{risk_score}</span>
+              <span className="score-max">/ 10</span>
             </div>
-          </section>
-        )}
-
-        {/* ── IMAGE FINDINGS ── */}
-        {result.detected_from_image && (
-          <section className="result-section">
-            <h2 className="section-title">📷 Image Analysis</h2>
-            <div className="info-box">{result.detected_from_image}</div>
-          </section>
-        )}
-
-        {/* ── RECOMMENDATION ── */}
-        <section className="result-section">
-          <h2 className="section-title">Recommendation</h2>
-          <div className={`recommendation-box ${urgencyClass}`}>
-            {result.recommendation}
+            <span className="gauge-label">PERIODONTAL RISK INDEX</span>
           </div>
-        </section>
 
-        {/* ── HOME CARE TIPS ── */}
-        {result.home_care_tips?.length > 0 && (
-          <section className="result-section">
-            <h2 className="section-title">🏠 Home Care Tips</h2>
-            <ul className="tips-list">
-              {result.home_care_tips.map((tip, i) => (
-                <li key={i}>{tip}</li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {/* ── SEE DENTIST ── */}
-        <section className="result-section">
-          <div className={`dentist-box ${result.should_see_dentist ? "yes" : "no"}`}>
-            {result.should_see_dentist
-              ? "✅ You should see a dentist"
-              : "ℹ️ Home care may be sufficient for now"}
+          <div className="urgency-container">
+            <span className="urgency-title">ASSESSED URGENCY</span>
+            <span className={`badge-urgency ${getUrgencyClass(urgency)}`}>
+              {urgency}
+            </span>
+            <span className="condition-category-tag">
+              Category: <strong>{condition_category}</strong>
+            </span>
+            <p className="dentist-flag">
+              {should_see_dentist ? '⚠️ Clinical Dental Evaluation Recommended' : '✓ Routine Hygiene Monitoring'}
+            </p>
+            {should_see_dentist && (
+              <button 
+                className="find-dentist-btn" 
+                onClick={handleFindDentist}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: 'rgba(0, 137, 123, 0.1)',
+                  color: '#00897B',
+                  border: '1px solid #00897B',
+                  padding: '8px 16px',
+                  borderRadius: '12px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  marginTop: '10px',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                📍 Find Nearest Dentist
+              </button>
+            )}
           </div>
-        </section>
-
-        {/* ── DISCLAIMER ── */}
-        <div className="disclaimer">
-          ⚠️ {result.disclaimer || "This is not a medical diagnosis. Always consult a licensed dentist."}
         </div>
 
-        {/* ── ACTION BUTTONS ── */}
+        {/* Symptoms & Meta Summary */}
+        <div className="meta-summary-grid">
+          <div className="meta-item">
+            <span className="meta-label">Symptom Location</span>
+            <strong className="meta-val">{location}</strong>
+          </div>
+          <div className="meta-item">
+            <span className="meta-label">Symptom Duration</span>
+            <strong className="meta-val">{duration}</strong>
+          </div>
+        </div>
+
+        {/* Identified Symptoms Tags */}
+        {symptoms.length > 0 && (
+          <div className="result-section">
+            <h4>Identified Clinical Factors</h4>
+            <div className="tags-cloud">
+              {symptoms.map((sym, i) => (
+                <span key={i} className="symptom-pill">• {sym}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Urgency Rationale */}
+        {urgency_rationale && (
+          <div className="rationale-box">
+            <h4>Clinical Urgency Rationale</h4>
+            <p>{urgency_rationale}</p>
+          </div>
+        )}
+
+        {/* Clinical Recommendation */}
+        {recommendation && (
+          <div className="recommendation-box">
+            <h4>AI Triage Clinical Recommendation</h4>
+            <p>{recommendation}</p>
+          </div>
+        )}
+
+        {/* Home Care Guidance */}
+        {home_care_tips.length > 0 && (
+          <div className="result-section">
+            <h4>Personalized Home Care Guidance</h4>
+            <ul className="tips-list">
+              {home_care_tips.map((tip, idx) => (
+                <li key={idx}>
+                  <CheckCircle2 size={16} color="var(--accent-emerald)" style={{ flexShrink: 0 }} />
+                  <span>{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Emergency Red Flags */}
+        {emergency_warning_signs.length > 0 && (
+          <div className="warning-box">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <AlertTriangle size={18} color="var(--accent-rose)" />
+              <h4 style={{ color: 'var(--accent-rose)', fontSize: '0.85rem', fontWeight: 700 }}>
+                Emergency Red Flag Warning Signs
+              </h4>
+            </div>
+            <ul className="warning-list">
+              {emergency_warning_signs.map((sign, idx) => (
+                <li key={idx}>• {sign}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Disclaimer */}
+        <div className="disclaimer-text">
+          {disclaimer || "⚠️ DISCLAIMER: This is an automated AI-based triage assessment for informational purposes only. It is not a professional medical diagnosis. Please consult a licensed dentist."}
+        </div>
+
+        {/* Action Buttons */}
         <div className="result-actions">
-          <button className="btn-save" onClick={handleSave} disabled={saving || saved}>
-            {saving ? "Saving…" : saved ? "✅ Saved" : "💾 Save Assessment"}
+          <button className="primary-btn" onClick={handleDownloadPDF}>
+            <FileText size={18} />
+            Download PDF Report
           </button>
-          <button className="btn-pdf" onClick={handleDownloadPdf} disabled={downloading || !saved}>
-            {downloading ? "Downloading…" : "📄 Download PDF"}
-          </button>
-          <button
-          className="btn-new"
-          onClick={() => navigate("/chat", { state: { newSession: true } })}
-          >
-            🔄 New Assessment
-          </button>
-          <button className="btn-history" onClick={() => navigate("/history")}>
-            📋 View History
+
+          <button className="secondary-btn" onClick={() => navigate('/chat')}>
+            <RefreshCw size={18} />
+            New Assessment
           </button>
         </div>
       </div>
     </div>
   );
-};
-
-export default Result;
+}

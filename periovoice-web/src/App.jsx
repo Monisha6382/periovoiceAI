@@ -1,37 +1,43 @@
 /**
- * App.jsx — PerioVoice AI
- * Main router. Wraps all pages with AuthProvider.
- * Protected routes redirect to login if not authenticated.
+ * App.jsx — PerioVoice AI™ Router
+ * Wraps all main pages inside the responsive Navigation shell.
  */
 
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import Home    from "./pages/Home";
-import Chat    from "./pages/Chat";
-import Result  from "./pages/Result";
+import Navigation from "./components/Navigation";
+import Home from "./pages/Home";
+import Chat from "./pages/Chat";
+import Result from "./pages/Result";
 import History from "./pages/History";
-import Login   from "./pages/Login";
-import ForgotPassword from "./pages/ForgotPassword";
+import Reminders from "./pages/Reminders";
 import Profile from "./pages/Profile";
-
-// ── Protected Route: redirects to /login if not logged in ──
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  if (loading) return <div style={{ display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",fontSize:"1.5rem" }}>🦷</div>;
-  return user ? children : <Navigate to="/login" />;
-};
+import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
+import Settings from "./pages/Settings";
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/login" element={<Login />} />
-    <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/"       element={<ProtectedRoute><Home /></ProtectedRoute>} />
-    <Route path="/chat"   element={<ProtectedRoute><Chat /></ProtectedRoute>} />
-    <Route path="/result" element={<ProtectedRoute><Result /></ProtectedRoute>} />
-    <Route path="/history"element={<ProtectedRoute><History /></ProtectedRoute>} />
-    <Route path="*"       element={<Navigate to="/" />} />
+    <Route
+      path="/*"
+      element={
+        <Navigation>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/result" element={<Result />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/reminders" element={<Reminders />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Navigation>
+      }
+    />
   </Routes>
 );
 

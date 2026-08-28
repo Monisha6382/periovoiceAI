@@ -102,6 +102,15 @@ class AssessmentResult(BaseModel):
     home_care_tips: List[str]
     should_see_dentist: bool
     disclaimer: str = "This is not a medical diagnosis"
+    
+    # Extra fields for front-end compatibility & rich report display
+    urgency: Optional[str] = None
+    symptoms: Optional[List[str]] = None
+    location: Optional[str] = "Oral Cavity"
+    duration: Optional[str] = "Not specified"
+    condition_category: Optional[str] = "Periodontal Assessment"
+    condition_description: Optional[str] = ""
+    urgency_rationale: Optional[str] = ""
 
 
 class HistoryItem(BaseModel):

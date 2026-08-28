@@ -1,67 +1,196 @@
-/* ChatBubble.css */
+/* ChatBubble.css — Android-optimised chat bubbles */
+
+/* =================== BUBBLE ROW =================== */
 .bubble-row {
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  max-width: 85%;
-  animation: fadeUp 0.3s ease;
+  max-width: 86%;
+  animation: fadeUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.ai-row  { align-self: flex-start; }
+
+.ai-row   { align-self: flex-start; }
 .user-row { align-self: flex-end; flex-direction: row-reverse; }
 
+/* =================== AVATARS =================== */
 .avatar {
-  width: 32px; height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: #E0F2F1;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
 }
-.user-avatar { background: #00897B; }
 
+.bot-avatar {
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+}
+
+.user-avatar-badge {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  color: var(--accent-indigo);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+}
+
+/* =================== BUBBLE BASE =================== */
 .bubble {
-  padding: 12px 16px;
-  border-radius: 18px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.92rem;
-  line-height: 1.6;
+  padding: 13px 18px;
+  border-radius: 20px;
+  font-size: 0.93rem;
+  line-height: 1.5;
   max-width: 100%;
   word-break: break-word;
+  position: relative;
+  transition: all 0.18s ease;
 }
+
+/* AI bubble — left side */
 .ai-bubble {
-  background: #ffffff;
-  color: #1a2e2b;
-  border-bottom-left-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: rgba(6, 182, 212, 0.09);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #e0f7fa;
+  border: 1px solid rgba(6, 182, 212, 0.28);
+  /* Asymmetric: flat bottom-left corner = WhatsApp style */
+  border-radius: 20px 20px 20px 5px;
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.07);
 }
+
+[data-theme="light"] .ai-bubble {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+}
+
+/* User bubble — right side */
 .user-bubble {
-  background: #00897B;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
   color: #ffffff;
-  border-bottom-right-radius: 4px;
+  /* Asymmetric: flat bottom-right corner */
+  border-radius: 20px 20px 5px 20px;
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+  font-weight: 500;
 }
-.image-bubble { border: 2px solid #4DB6AC; background: #E0F2F1 !important; color: #004D40 !important; }
+
+/* =================== BUBBLE FOOTER =================== */
+.bubble-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 5px;
+  min-height: 18px;
+}
+
+/* Speak / TTS button — Android 44dp touch target */
+.speak-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-subtle);
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.speak-btn:hover,
+.speak-btn:active {
+  background: rgba(6, 182, 212, 0.2);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  transform: scale(0.95);
+}
 
 .bubble-time {
-  font-size: 0.7rem;
-  opacity: 0.5;
-  margin-top: 4px;
-  text-align: right;
+  font-size: 0.68rem;
+  opacity: 0.55;
+  margin-left: auto;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
-/* Typing dots */
+.ai-bubble   .bubble-time { color: var(--text-subtle); }
+.user-bubble .bubble-time { color: rgba(255, 255, 255, 0.75); }
+
+/* =================== TYPING DOTS =================== */
 .typing-indicator {
-  display: flex; gap: 4px; align-items: center; height: 20px; padding: 0 4px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  height: 22px;
+  padding: 0 4px;
 }
+
 .typing-indicator span {
-  width: 7px; height: 7px; background: #00897B; border-radius: 50%;
-  animation: bounce 1.2s infinite;
+  width: 7px;
+  height: 7px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite ease-in-out;
 }
+
 .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
 .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes bounce {
-  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-  40% { transform: translateY(-6px); opacity: 1; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0);   opacity: 0.35; }
+  40%           { transform: translateY(-7px); opacity: 1; }
+}
+
+/* =================== IMAGE PREVIEW =================== */
+.chat-uploaded-image {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-glass);
+}
+
+/* =================== ANDROID OVERRIDES =================== */
+@media (max-width: 480px) {
+  .bubble-row { max-width: 90% !important; gap: 6px !important; }
+
+  .avatar {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .bubble {
+    padding: 12px 16px !important;
+    font-size: 0.93rem !important;
+    line-height: 1.48 !important;
+  }
+
+  .speak-btn {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+  }
+
+  .bubble-time { font-size: 0.67rem !important; }
+
+  .chat-uploaded-image {
+    width: 200px !important;
+    border-radius: 12px !important;
+  }
 }

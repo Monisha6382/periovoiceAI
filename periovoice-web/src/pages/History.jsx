@@ -1,149 +1,188 @@
-/**
- * History.jsx — PerioVoice AI
- * Shows all past assessments for the logged-in user.
- * Includes a trend chart and download option for each assessment.
- */
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { Search, Clock, Trash2, ChevronRight } from '../components/Icons';
+import { getHistory, deleteAssessment } from '../services/api';
+import { translations } from '../utils/translations';
+import './History.css';
 
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { getHistory, getPdf } from "../services/api";
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS, CategoryScale, LinearScale,
-  PointElement, LineElement, Tooltip, Legend, Filler
-} from "chart.js";
-import UrgencyBadge from "../components/UrgencyBadge";
-import "./History.css";
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler);
-
-const URGENCY_SCORE = { LOW: 2, MODERATE: 5, HIGH: 8, EMERGENCY: 10 };
-
-const History = () => {
+export default function History() {
   const { user } = useAuth();
-  const navigate  = useNavigate();
-  const [assessments, setAssessments] = useState([]);
-  const [loading, setLoading]         = useState(true);
-  const [error, setError]             = useState("");
+  const navigate = useNavigate();
+  const [lang] = useState(localStorage.getItem('language') || 'en');
+  const t = translations[lang] || translations.en;
+
+  const [historyList, setHistoryList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [urgencyFilter, setUrgencyFilter] = useState('ALL');
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     fetchHistory();
-  }, []);
+  }, [user]);
 
   const fetchHistory = async () => {
-    try {
-      setLoading(true);
-      const data = await getHistory(user.uid);
-      setAssessments(data.assessments || []);
-    } catch (err) {
-      setError("Could not load history. Make sure backend is running.");
-    } finally {
-      setLoading(false);
-    }
+    const userId = user?.uid || 'guest_patient';
+    const serverData = await getHistory(userId);
+    setHistoryList(serverData);
   };
 
-  const handleDownloadPdf = async (assessmentId) => {
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    const userId = user?.uid || 'guest_patient';
+    const userCacheKey = `periovoice_history_${userId}`;
     try {
-      const data = await getPdf(assessmentId, user.uid);
-      const bytes = Uint8Array.from(atob(data.pdf_base64), c => c.charCodeAt(0));
-      const blob  = new Blob([bytes], { type: "application/pdf" });
-      const url   = URL.createObjectURL(blob);
-      const a     = document.createElement("a");
-      a.href = url; a.download = data.filename;
-      a.click(); URL.revokeObjectURL(url);
-    } catch {
-      alert("PDF download failed.");
+      await deleteAssessment(deleteTarget);
+    } catch (e) {
+      console.warn("Delete API error:", e);
     }
+    const updated = historyList.filter(item => item.id !== deleteTarget && item.session_id !== deleteTarget && item.assessment_id !== deleteTarget);
+    setHistoryList(updated);
+    localStorage.setItem(userCacheKey, JSON.stringify(updated));
+    setDeleteTarget(null);
   };
 
-  // ── CHART DATA ──
-  const chartData = {
-    labels: assessments.map((a, i) =>
-      new Date(a.date || a.created_at || Date.now()).toLocaleDateString()
-    ),
-    datasets: [{
-      label: "Risk Score",
-      data: assessments.map(a => a.risk_score || URGENCY_SCORE[a.urgency_level] || 1),
-      borderColor: "#00897B",
-      backgroundColor: "rgba(0,137,123,0.08)",
-      borderWidth: 2.5,
-      pointBackgroundColor: "#00897B",
-      pointRadius: 5,
-      fill: true,
-      tension: 0.4,
-    }],
+  const getCorrectUrgency = (item) => {
+    const rec = (item.recommendation || '').toLowerCase();
+    const score = item.risk_score || 0;
+    
+    if (rec.includes('emergency') || score >= 9) return 'EMERGENCY';
+    if (rec.includes('high') || score >= 7) return 'HIGH';
+    if (rec.includes('low') || (score > 0 && score < 4)) return 'LOW';
+    return 'MODERATE';
   };
-  const chartOptions = {
-    responsive: true,
-    scales: {
-      y: { min: 0, max: 10, ticks: { stepSize: 2 }, grid: { color: "#f0f0f0" } },
-      x: { grid: { display: false } },
-    },
-    plugins: { legend: { display: false } },
-  };
+
+  const filteredHistory = historyList.filter(item => {
+    const symptoms = item.symptoms || item.symptoms_found || [];
+    const recommendation = item.recommendation || '';
+    const urgency = getCorrectUrgency(item);
+
+    const matchesSearch = searchQuery === '' || 
+      recommendation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (symptoms && symptoms.some(s => String(s).toLowerCase().includes(searchQuery.toLowerCase())));
+    
+    const matchesUrgency = urgencyFilter === 'ALL' || urgency.toUpperCase() === urgencyFilter;
+
+    return matchesSearch && matchesUrgency;
+  });
 
   return (
     <div className="history-page">
-      {/* HEADER */}
-      <header className="history-header">
-        <button className="back-btn" onClick={() => navigate("/")}>← Back</button>
-        <h1 className="history-title">📋 Assessment History</h1>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <button className="new-btn" onClick={fetchHistory}>Refresh</button>
-          <button className="new-btn" onClick={() => navigate("/chat")}>+ New</button>
-          </div>
-      </header>
+      <div className="page-header">
+        <div>
+          <h2>{t.historyTitle}</h2>
+          <p>{t.historySub}</p>
+        </div>
+      </div>
 
-      <div className="history-body">
-        {loading && <div className="history-loading">Loading your assessments…</div>}
-        {error   && <div className="history-error">{error}</div>}
+      {/* Search & Filter Controls */}
+      <div className="controls-bar glass-card">
+        <div className="search-box">
+          <Search size={18} color="var(--text-subtle)" />
+          <input
+            type="text"
+            placeholder={t.searchPlaceholder}
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
+        </div>
 
-        {!loading && assessments.length === 0 && (
-          <div className="history-empty">
-            <div className="empty-icon">🦷</div>
-            <h3>No assessments yet</h3>
-            <p>Complete your first assessment to see results here.</p>
-            <button onClick={() => navigate("/chat")}>Start Assessment</button>
-          </div>
-        )}
-
-        {/* TREND CHART */}
-        {assessments.length > 1 && (
-          <div className="chart-card">
-            <h2 className="chart-title">Risk Score Trend</h2>
-            <Line data={chartData} options={chartOptions} />
-          </div>
-        )}
-
-        {/* ASSESSMENT LIST */}
-        <div className="assessment-list">
-          {[...assessments].reverse().map((item, i) => (
-            <div key={item.assessment_id || i} className="assessment-card">
-              <div className="card-top">
-                <UrgencyBadge level={item.urgency_level} />
-                <span className="card-date">
-                  {new Date(item.date || item.created_at || Date.now()).toLocaleDateString("en-IN", {
-                    day: "numeric", month: "short", year: "numeric"
-                  })}
-                </span>
-              </div>
-              <div className="card-score">Risk Score: <strong>{item.risk_score}</strong>/10</div>
-              {item.recommendation && (
-                <p className="card-rec">{item.recommendation.substring(0, 120)}…</p>
-              )}
-              <button
-                className="btn-dl-pdf"
-                onClick={() => handleDownloadPdf(item.assessment_id)}
-              >
-                📄 Download PDF
-              </button>
-            </div>
+        <div className="filter-pills">
+          {['ALL', 'EMERGENCY', 'HIGH', 'MODERATE', 'LOW'].map(lvl => (
+            <button
+              key={lvl}
+              className={`filter-pill ${urgencyFilter === lvl ? 'active' : ''}`}
+              onClick={() => setUrgencyFilter(lvl)}
+            >
+              {t[lvl.toLowerCase()] || lvl}
+            </button>
           ))}
         </div>
       </div>
+
+      {/* History Items List */}
+      {filteredHistory.length === 0 ? (
+        <div className="empty-card glass-card">
+          <Clock size={36} color="var(--text-subtle)" />
+          <h4>{t.noRecordsFound}</h4>
+        </div>
+      ) : (
+        <div className="history-grid">
+          {filteredHistory.map((item, idx) => (
+            <div key={item.id || idx} className="history-card glass-card">
+              <div className="card-header">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span className={`badge-urgency badge-${getCorrectUrgency(item).toLowerCase()}`}>
+                    {getCorrectUrgency(item)}
+                  </span>
+                  <span className="card-date">
+                    {new Date(item.created_at || Date.now()).toLocaleDateString()}
+                  </span>
+                </div>
+                <button
+                  className="delete-icon-btn"
+                  onClick={() => setDeleteTarget(item.id)}
+                  title={t.deleteRecord}
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+
+              <div className="card-body">
+                <div className="score-row">
+                  <span>Risk Score:</span>
+                  <strong>{item.risk_score || 3}/10</strong>
+                </div>
+
+                <p className="recommendation-snippet">
+                  {item.recommendation || 'Assessment complete. Follow home care advice.'}
+                </p>
+
+                {(() => {
+                  const symptoms = item.symptoms || item.symptoms_found || [];
+                  return symptoms.length > 0 && (
+                    <div className="mini-tags">
+                      {symptoms.slice(0, 3).map((s, i) => (
+                        <span key={i} className="mini-tag">• {s}</span>
+                      ))}
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div className="card-footer">
+                <button
+                  className="view-btn"
+                  onClick={() => navigate('/result', { state: { result: item } })}
+                >
+                  {t.viewFullAssessment} <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div className="modal-overlay" onClick={() => setDeleteTarget(null)}>
+          <div className="modal-content glass-card" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>{t.deleteRecord}</h3>
+              <button className="close-btn" onClick={() => setDeleteTarget(null)}>✕</button>
+            </div>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '20px' }}>
+              {t.deleteConfirmText}
+            </p>
+            <div className="modal-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              <button className="secondary-btn" onClick={() => setDeleteTarget(null)}>{t.cancel}</button>
+              <button className="danger-btn" onClick={handleDelete} style={{ background: 'var(--accent-rose)', color: 'white', border: 'none', padding: '10px 18px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
+                {t.delete}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
-
-export default History;
+}

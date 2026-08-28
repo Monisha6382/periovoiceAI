@@ -69,8 +69,9 @@ const ForgotPassword = () => {
 
           <button
             type="button"
-            className="forgot-password-btn"
+            className="btn-guest"
             onClick={() => navigate("/login")}
+            style={{ marginTop: '16px' }}
           >
             Back to Login
           </button>

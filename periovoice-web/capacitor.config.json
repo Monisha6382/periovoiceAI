@@ -1,0 +1,17 @@
+{
+  "appId": "com.periovoice.ai",
+  "appName": "PerioVoice AI",
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "plugins": {
+    "FirebaseAuthentication": {
+      "providers": [
+        "google.com"
+      ],
+      "skipNativeAuth": false
+    }
+  }
+}
