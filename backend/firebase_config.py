@@ -32,6 +32,19 @@ class FirebaseManager:
 
     def _resolve_cred_path(self) -> str:
         """Robustly resolve the path to firebase-key.json across environments."""
+        # Check if raw service account JSON string is provided in environment variables (for PaaS like Render)
+        service_account_json = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
+        if service_account_json:
+            try:
+                cred_dict = json.loads(service_account_json.strip())
+                temp_path = os.path.join(BASE_DIR, "firebase-key-temp.json")
+                with open(temp_path, "w") as f:
+                    json.dump(cred_dict, f)
+                print("🔥 Decoded Firebase credentials from FIREBASE_SERVICE_ACCOUNT_JSON environment variable.")
+                return temp_path
+            except Exception as e:
+                print(f"⚠️ Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON: {e}")
+
         env_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
         candidate_paths = []
 

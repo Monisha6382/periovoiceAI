@@ -16,7 +16,7 @@ export const getBackendUrl = () => {
     (typeof navigator !== "undefined" && /android/i.test(navigator.userAgent))
   );
 
-  const envUrl = process.env.REACT_APP_BACKEND_URL;
+  const envUrl = process.env.REACT_APP_API_URL || process.env.REACT_APP_BACKEND_URL;
 
   if (isAndroid) {
     // For native Android local testing, default to LAN IP (192.168.1.13:8000)
