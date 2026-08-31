@@ -16,11 +16,14 @@ export const getBackendUrl = () => {
     (typeof navigator !== "undefined" && /android/i.test(navigator.userAgent))
   );
 
-  const envUrl = process.env.REACT_APP_API_URL || process.env.REACT_APP_BACKEND_URL;
+  let envUrl = process.env.REACT_APP_API_URL || process.env.REACT_APP_BACKEND_URL;
+  if (envUrl && !envUrl.startsWith("http://") && !envUrl.startsWith("https://")) {
+    envUrl = `https://${envUrl}`;
+  }
 
   if (isAndroid) {
     // For native Android local testing, default to LAN IP (192.168.1.13:8000)
-    // If REACT_APP_BACKEND_URL is configured and is NOT localhost, use it (for future production URL)
+    // If envUrl is configured and is NOT localhost, use it (for future production URL)
     if (envUrl && !envUrl.includes("localhost") && !envUrl.includes("127.0.0.1")) {
       return envUrl;
     }
