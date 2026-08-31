@@ -18,7 +18,6 @@ services:
 
   - type: web
     name: periovoice-frontend
-    plan: free
     runtime: static
     buildCommand: cd periovoice-web && npm install && npm run build
     staticPublishPath: periovoice-web/build
