@@ -27,6 +27,7 @@ jobs:
           cd periovoice-web
           npm install
           npm run build
+          cp build/index.html build/404.html
         env:
           REACT_APP_API_URL: https://periovoiceai.onrender.com
           CI: false
