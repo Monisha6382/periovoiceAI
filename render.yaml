@@ -15,10 +15,11 @@ services:
       - key: FIREBASE_SERVICE_ACCOUNT_JSON
         sync: false # User must paste their Firebase service account JSON string here
 
-  - type: static
+  - type: web
     name: periovoice-frontend
+    runtime: static
     buildCommand: cd periovoice-web && npm install && npm run build
-    publishPath: periovoice-web/build
+    staticPublishPath: periovoice-web/build
     envVars:
       - key: REACT_APP_API_URL
         fromService:
