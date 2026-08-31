@@ -15,10 +15,8 @@ services:
       - key: FIREBASE_SERVICE_ACCOUNT_JSON
         sync: false # User must paste their Firebase service account JSON string here
 
-  # 2. React SPA Frontend (Static site)
-  - type: web
+  - type: static
     name: periovoice-frontend
-    env: static
     buildCommand: cd periovoice-web && npm install && npm run build
     publishPath: periovoice-web/build
     envVars:
