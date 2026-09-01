@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/periovoiceAI/static/css/main.31a693f4.css",
+    "main.js": "/periovoiceAI/static/js/main.ffa64077.js",
+    "static/js/498.72f8b0aa.chunk.js": "/periovoiceAI/static/js/498.72f8b0aa.chunk.js",
+    "index.html": "/periovoiceAI/index.html",
+    "main.31a693f4.css.map": "/periovoiceAI/static/css/main.31a693f4.css.map",
+    "main.ffa64077.js.map": "/periovoiceAI/static/js/main.ffa64077.js.map",
+    "498.72f8b0aa.chunk.js.map": "/periovoiceAI/static/js/498.72f8b0aa.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31a693f4.css",
+    "static/js/main.ffa64077.js"
+  ]
+}
