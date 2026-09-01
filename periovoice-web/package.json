@@ -2,7 +2,7 @@
   "name": "periovoice-web",
   "version": "1.0.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://monisha6382.github.io/periovoiceAI",
   "dependencies": {
     "@capacitor-firebase/authentication": "^8.4.0",
     "@capacitor/android": "^8.4.2",
