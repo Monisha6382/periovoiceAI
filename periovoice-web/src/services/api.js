@@ -68,6 +68,8 @@ export const sendChat = async (payload) => {
   }
 };
 
+import { analyzeImageClientSide } from "../utils/clientImageAnalyzer";
+
 export const analyzeImage = async (file, sessionId) => {
   const backendUrl = getBackendUrl();
   const url = sessionId ? `/analyze/image?session_id=${sessionId}` : "/analyze/image";
@@ -86,10 +88,8 @@ export const analyzeImage = async (file, sessionId) => {
 
   try {
     const formData = new FormData();
-    // Use the field name 'file' expected by the FastAPI backend
     formData.append("file", file, file.name || "image.jpg");
 
-    // Let Axios generate the multipart/form-data boundary header automatically
     const res = await api.post(url, formData);
 
     console.log("[Image Upload] Upload success. Response details:", {
@@ -100,20 +100,8 @@ export const analyzeImage = async (file, sessionId) => {
 
     return res.data;
   } catch (err) {
-    console.error("[Image Upload] Error occurred during upload:", {
-      message: err.message,
-      code: err.code,
-      status: err.response?.status,
-      statusText: err.response?.statusText,
-      responseData: err.response?.data,
-      config: {
-        url: err.config?.url,
-        baseURL: err.config?.baseURL,
-        headers: err.config?.headers
-      }
-    });
-    // Rethrow the error so calling components can catch it and display contextual user-friendly messages
-    throw err;
+    console.warn("[Image Upload] Backend unreachable/error. Executing client-side Canvas Image Analyzer fallback...", err.message);
+    return await analyzeImageClientSide(file);
   }
 };
 
