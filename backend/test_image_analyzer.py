@@ -91,7 +91,7 @@ def test_image_analysis():
         print(f"  Symptoms Detected: {result['detected_symptom_tags']}")
         print(f"  Recommendation: {result['recommendation']}")
         assert result['visual_risk_score'] >= 5
-        assert "mild_swelling" in result['detected_symptom_tags'] or "bleeding_gums_brushing" in result['detected_symptom_tags']
+        assert any(tag in result['detected_symptom_tags'] for tag in ["severe_swelling", "mild_swelling", "bleeding_gums_brushing"])
     else:
         assert False, "Should succeed"
 

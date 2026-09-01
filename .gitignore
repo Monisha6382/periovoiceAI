@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 venv/
 env/
+.pytest_cache/
 
 # Environment files
 .env
@@ -14,6 +15,8 @@ env/
 google-services.json
 serviceAccountKey.json
 firebase-adminsdk*.json
+backend/firebase-key.json
+*firebase-key-temp.json
 
 # Node
 node_modules/
@@ -40,7 +43,6 @@ backend/local_storage/
 .DS_Store
 Thumbs.db
 
-# Logs
+# Logs & Test outputs
 *.log
-backend/firebase-key.json
-*firebase-key-temp.json
+test-artifacts/

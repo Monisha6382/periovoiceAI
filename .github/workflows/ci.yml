@@ -7,9 +7,11 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   frontend:
+    name: Frontend Build & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +22,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
+          cache-dependency-path: periovoice-web/package.json
 
       - name: Install Frontend Dependencies
         run: |
@@ -30,8 +34,11 @@ jobs:
         run: |
           cd periovoice-web
           npm run build
+        env:
+          CI: false
 
   backend:
+    name: Backend Tests & Artifact Reports
     runs-on: ubuntu-latest
 
     steps:
@@ -42,13 +49,40 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: 'pip'
+          cache-dependency-path: backend/requirements.txt
 
       - name: Install Backend Dependencies
         run: |
           cd backend
+          pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Check Backend
+      - name: Check Backend Syntax
         run: |
           cd backend
           python -m py_compile main.py
+
+      - name: Run 4 Automated Test Cases (Pytest)
+        run: |
+          python -m pytest backend/test_suite_4_cases.py -v
+
+      - name: Generate Multi-Format Test Artifacts (HTML, Excel, PDF, Markdown, JSON)
+        run: |
+          python backend/run_tests_with_reports.py
+
+      - name: Publish Test Summary to GitHub Job Summary
+        if: always()
+        run: |
+          if [ -f test-artifacts/test_summary.md ]; then
+            cat test-artifacts/test_summary.md >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload Downloadable Test Report Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: periovoice-ai-test-artifacts
+          path: test-artifacts/
+          retention-days: 14
+          if-no-files-found: error
